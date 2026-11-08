@@ -1,0 +1,14 @@
+-- ============================================================================
+-- 0043_ip_address.sql — a queued message carries the client's address
+-- (issue 13 of the design audit, 22 Oct 2026: "the MT logs keep no IP
+-- address").
+--
+-- The address is known where the message is accepted (the HTTP request's
+-- client, behind YAKU_TRUSTED_PROXIES; the SMPP bind's peer), but the record
+-- is written by the vendor role that sends it, from the message it claimed.
+-- A Redis queue carries the whole message; a MySQL queue row had no place
+-- for the address, so the record said nothing. Existing queue_<cid> tables
+-- get the column at start (bootstrap syncCloneColumns).
+-- One column per ALTER (the bootstrap rule).
+-- ============================================================================
+ALTER TABLE queue_template ADD COLUMN ip_address VARCHAR(45) NULL;

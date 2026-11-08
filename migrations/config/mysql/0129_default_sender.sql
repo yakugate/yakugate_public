@@ -1,0 +1,17 @@
+-- ============================================================================
+-- 0129_default_sender.sql — an account's DEFAULT SENDER (Saleem, 2026-09-29)
+--
+-- "if user has default sender, then if user not send sender then that sender
+-- is applied by gateway to send the message, default sender be one of alloted
+-- senders, this setting will also be applied in case of invalid sender id"
+--
+-- NULL = no default: a missing, malformed or unallotted sender is refused as
+-- before. When set, the accept pipeline's first stage puts it in place of a
+-- sender that is missing, malformed (INVALID_SENDER) or not one of the
+-- account's allotted senders (SENDER_NOT_ALLOWED) — before any other rule, so
+-- templates, spam rules and routing all judge the sender actually sent. It is
+-- applied only while it is itself allotted (allowed_sender_ids, or an approved
+-- sender_ids row for the account); a default that stopped being one changes
+-- nothing. The Admin API and the console refuse a default that is not.
+-- ============================================================================
+ALTER TABLE sms_service_config ADD COLUMN default_sender VARCHAR(32) NULL;

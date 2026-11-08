@@ -1,0 +1,47 @@
+-- ============================================================================
+-- 0124_vendor_throughput_retired.sql — a vendor's rate is per deployment too
+--
+-- PO 2026-09-24, completing config/0123: "submit_throughput, retire it."
+--
+-- config/0123 retired an ACCOUNT's three throughput columns and moved the rate
+-- onto its `deployments` entries. A vendor kept `submit_throughput`, and that
+-- left two problems worth stating plainly.
+--
+--   1. It was the wrong UNIT. The engine said so itself at every start:
+--        "submit rate capped at N/s for THIS process (vendors.submit_throughput);
+--         every running smpp-vendor adds another N/s"
+--      A carrier's cap is not per process of ours. Two vendor processes sent
+--      the carrier twice what its contract said, and the only warning was a
+--      log line nobody reads until the carrier complains.
+--
+--   2. `vendors.deployments[].mt_throughput` was offered on the screen and
+--      read by NOTHING. An operator could set a per-gateway rate and no box
+--      would honour it — a cap that does not exist, which is worse than no
+--      cap because it is believed.
+--
+-- Both are answered the same way: the rate lives on the deployment entry, and
+-- the carrier's contracted total is what you ALLOCATE across the gateways —
+-- lhr-1 60 plus khi-1 40 is the 100/s the contract says, and the screen shows
+-- that total. Exactly how an account reads.
+--
+-- The column is NOT dropped. It keeps its value as the record of what the
+-- vendor used to be allowed, it can be read by a binary from last week, and
+-- nothing about this migration is irreversible.
+--
+-- ----------------------------------------------------------------------------
+-- UPGRADE NOTE — this changes throughput, not just where it is configured.
+--
+-- The cap becomes PER DEPLOYMENT (shared by every vendor process there, via
+-- Redis) instead of per process. An operator running two http-vendor
+-- processes with submit_throughput=100 was sending 200/s; after this, the
+-- same vendor set to 100 on that deployment sends 100/s. That is the number
+-- the carrier agreed to — but it IS a reduction against what was happening,
+-- and it belongs in the deploy notes rather than being discovered.
+--
+-- With Redis off there is nothing to share a counter through, so the cap
+-- stays per process and the role says so at start, as it always has.
+-- ============================================================================
+
+ALTER TABLE vendors
+  MODIFY submit_throughput INT NOT NULL DEFAULT 0
+    COMMENT 'RETIRED config/0124 — a vendor rate is per deployment (deployments[].mt_throughput). Kept for history; not read';

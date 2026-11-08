@@ -1,0 +1,25 @@
+-- 0073_vendor_inbound_config.sql — authenticate INBOUND vendor callbacks
+-- (P5-B01, PO ruling 2026-08-31).
+--
+-- /dlr/<cid> (P5, :8090) and /mo/<cid> (P6, :8091) accepted any caller who knew
+-- or guessed an active vendor's cid. A correctly-shaped POST could flip a real
+-- message to delivered/failed, or inject a fake inbound message — which is the
+-- worse of the two: an MO is billed, appears in the client's logs as genuine,
+-- and can trigger their auto-reply into sending real traffic.
+--
+-- One JSON column rather than four scalars, matching the shape every other
+-- per-vendor settings blob on this table already uses (queue_config,
+-- adapter_config, dlr_config, log_config, protocol_config):
+--
+--   {"token":"…",
+--    "header":{"name":"X-Yaku-Token","value":"…"},
+--    "ip_allow":["203.0.113.7","198.51.100.0/24"]}
+--
+-- Each part is optional and a vendor must satisfy every part that IS set —
+-- vendors differ in what they can send, and mandating one scheme would lock
+-- real ones out. NULL/empty means no protection, which the engine REFUSES
+-- (PO: strict from day one), so the check cannot be defeated by leaving it
+-- unconfigured. Deliberately NOT reusing adapter_config.auth: that key is the
+-- OUTBOUND session-login chain (D-103) and means the opposite direction.
+ALTER TABLE vendors
+  ADD COLUMN inbound_config JSON DEFAULT NULL AFTER adapter_config;

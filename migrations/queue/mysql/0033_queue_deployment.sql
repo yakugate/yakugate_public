@@ -1,0 +1,33 @@
+-- ============================================================================
+-- 0033_queue_deployment.sql — which gateway accepted this message
+--
+-- PO 2026-09-24, with config/0122 and hot/0046.
+--
+-- An MT record is written when the message reaches a terminal state, by the
+-- role that sent it — so by then the gateway that ACCEPTED the submit is long
+-- out of the picture. Nothing else carries that fact across the gap: the
+-- accept path writes no hot row at all for a message it accepts (only for one
+-- it refuses), so the queue row is the only place the accepting deployment
+-- can leave its name.
+--
+-- Set at enqueue, read at claim, written to mtlog.deployment_id; the sending
+-- deployment writes mtlog.sent_deployment_id from its own id. Under one
+-- shared store those two legitimately differ — a message accepted in one site
+-- is sent by whichever site holds that carrier's bind — and that difference
+-- is the first thing an operator needs during an incident.
+--
+-- NULL = accepted before this, or a gateway that never set YAKU_DEPLOYMENT_ID.
+--
+-- Existing queue_<cid> tables are brought up to the template at the next role
+-- start by bootstrap's syncCloneColumns, which is why this needs no hot-path
+-- self-repair: the claim query is the most-run statement in the gateway and
+-- is not the place to discover a missing column.
+--
+-- It is also the column per-message pinning would key on later (claim
+-- `deployment_id IN (0, me)`), if an account ever has to leave from one site.
+-- That is deliberately NOT built in this phase — the vendor's own queue table
+-- is already the partition, and that covers every case we have.
+-- ============================================================================
+ALTER TABLE queue_template
+  ADD COLUMN deployment_id VARCHAR(64) NULL
+    COMMENT 'YAKU_DEPLOYMENT_ID of the gateway that accepted this submit';

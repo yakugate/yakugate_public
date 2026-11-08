@@ -1,0 +1,13 @@
+-- ============================================================================
+-- 0051_mtlog_billing_model.sql — how the company paid when the message was
+-- accepted, on the record (QA companies BUG-024, 2026-10-01; carried from the
+-- queue row, queue/0036)
+--
+--   billing_model   'prepaid' | 'postpaid'; NULL = not known — the billing
+--                   role then uses the company's model at rating time.
+--
+-- The billing role charges by this, so a message accepted while the company
+-- was postpaid is invoiced even if the company is prepaid by the time it is
+-- rated, and the other way round.
+-- ============================================================================
+ALTER TABLE mtlog_template ADD COLUMN billing_model VARCHAR(8) NULL;

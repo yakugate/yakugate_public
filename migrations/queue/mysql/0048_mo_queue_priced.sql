@@ -1,0 +1,16 @@
+-- ============================================================================
+-- 0048_mo_queue_priced.sql — an MO waiting in MySQL keeps its price (step 3
+-- of the DAL plan, 30 Oct 2026).
+--
+-- An MO is priced when it is taken in (mo.Service.Ingest → PriceMO), BEFORE
+-- it is staged, "so its record has the price whichever writes it (this
+-- intake, or its delivery when the client takes it first)". The Redis queue
+-- keeps the whole message, its price with it. mo_queue kept no price: an MO
+-- whose client took it before its intake had written its record got a
+-- record with no selling rate (the rig's mix without Redis: 2 of 1,799 MO
+-- unpriced, the MO money lines short by them). The price now rides the row:
+-- model.Priced as JSON, NULL for an MO with none (as before).
+--
+-- One column per ALTER statement (the bootstrap's rule).
+-- ============================================================================
+ALTER TABLE mo_queue ADD COLUMN priced TEXT NULL;

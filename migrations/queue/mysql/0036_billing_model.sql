@@ -1,0 +1,16 @@
+-- ============================================================================
+-- 0036_billing_model.sql — how the company paid when the message was accepted
+-- (QA companies BUG-024, 2026-10-01)
+--
+-- The billing role rates a message seconds after it is accepted. It used to
+-- read the company's billing model at THAT moment, so a company switched from
+-- postpaid to prepaid in between had its last postpaid messages taken from
+-- the new prepaid balance instead of going on the invoice. The accept
+-- pipeline now stamps the model here and the vendor role copies it onto the
+-- record (hot/0051), where billing reads it.
+--
+--   billing_model   'prepaid' | 'postpaid'; NULL = not known (an unlinked
+--                   account, or a row from before this column) — billing then
+--                   uses the company's model at rating time, as before.
+-- ============================================================================
+ALTER TABLE queue_template ADD COLUMN billing_model VARCHAR(8) NULL;

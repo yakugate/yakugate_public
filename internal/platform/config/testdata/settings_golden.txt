@@ -1,0 +1,1569 @@
+# names: every name KnownNames gives, and Describe of it
+YAKU_ABUSE_INTERVAL_SEC	Seconds between abuse-monitor checks (default 60)
+YAKU_ABUSE_SOURCE	Abuse monitor reads: counters (default with Redis), records or compare
+YAKU_ADMIN_ADDR	Health/admin port of a role: /healthz, /readyz, /status; unset = none
+YAKU_ADMIN_ADDR_ABUSE_MONITOR	Admin/health port of the abuse-monitor role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_BACKUP	Admin/health port of the backup role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_BILLING	Admin/health port of the billing role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_BLACKHOLE	Admin/health port of the blackhole role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_DB_WORKER	Admin/health port of the db-worker role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_DLR	Admin/health port of the dlr role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_EXPIRY	Admin/health port of the expiry role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_HTTP_SERVER	Admin/health port of the http-server role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_HTTP_VENDOR	Admin/health port of the http-vendor role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_MO	Admin/health port of the mo role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_RETENTION	Admin/health port of the retention role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_RETRY	Admin/health port of the retry role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_SMPP_SERVER	Admin/health port of the smpp-server role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_ADDR_SMPP_VENDOR	Admin/health port of the smpp-vendor role only (beats YAKU_ADMIN_ADDR)
+YAKU_ADMIN_KEY	Key for /admin/* calls and the control port; unset = /admin off
+YAKU_ADMIN_PASSWORD	Password for /admin/* calls (with YAKU_ADMIN_USER)
+YAKU_ADMIN_USER	User name for /admin/* calls (with YAKU_ADMIN_PASSWORD)
+YAKU_API_ADDR	Submit API port for clients (default :8080)
+YAKU_API_TLS	off = no HTTPS port even when the certificate is set
+YAKU_API_TLS_ADDR	HTTPS port for the submit API; needs the certificate and key too
+YAKU_API_TLS_CERT	Certificate file for the HTTPS port
+YAKU_API_TLS_CLIENT_CA	CA bundle; set = HTTPS clients must show a certificate
+YAKU_API_TLS_KEY	Private key file for the HTTPS port
+YAKU_AUTO_MIGRATE	Create and upgrade the databases at start (default on)
+YAKU_AUTO_SEED	Add demo rows on first start (default off; dev boxes only)
+YAKU_BACKUP_INTERVAL_SEC	Seconds between backups (default 86400, once a day)
+YAKU_BACKUP_KEEP	Complete backups kept (default 7)
+YAKU_BACKUP_ROOT	Folder for backups (default ./backups)
+YAKU_BALANCE_REPLY_CACHE_MS	Ms a reply's balance read from MySQL is reused (2000; 0 = never)
+YAKU_BASE_CURRENCY	System base currency prices are compared in (USD)
+YAKU_BILLING_BATCH	Records priced per billing pass (default 1000)
+YAKU_BILLING_DRAIN_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_BILLING_FULL_PASS_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_BILLING_HOT_DAYS	Days of record tables the billing role reads on every sweep (3)
+YAKU_BILLING_INTERVAL_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_BILLING_MAX_RATING_ATTEMPTS	Failed pricing tries before a record is set aside (5)
+YAKU_BLACKHOLE_BATCH	Messages the test vendor takes per pass (default 500)
+YAKU_CACHE_REFRESH_SEC	Seconds between checks for changed settings (default 30)
+YAKU_CAPTURE_MAX_RECORDS	Records the portal keeps per flow capture (20000)
+YAKU_COLD_BACKEND	Where old records are archived (mysql)
+YAKU_COLD_DSN	Connection string for the archive database
+YAKU_COLD_READ_DSN	Read DSN of the archive database; unset = read where it is written
+YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	Seconds to wait for all parts of a long message (60)
+YAKU_CONCAT_MO_STORE	Where incoming (MO) long-message parts wait: mysql, redis, memory
+YAKU_CONCAT_MT_STORE	Where a client's long-message parts wait: mysql, redis, memory
+YAKU_CONCAT_STALE_HOURS	Hours to keep part receipts that never all came (48)
+YAKU_CONFIG_BACKEND	Settings database type: mysql or mssql (unset = from its DSN)
+YAKU_CONFIG_DSN	Connection string for the settings database
+YAKU_CONFIG_READ_DSN	Read DSN of the settings database; unset = read where it is written
+YAKU_CONSOLE_MENUS	Console menus: cursor (arrow keys) or numbers
+YAKU_CONTROL_ADDR	Local port the console uses to start/stop roles (127.0.0.1:8099)
+YAKU_CORS_ORIGINS	Web sites allowed to call the API from a browser, comma list
+YAKU_CRYPTO_AT_REST	on = encrypt message text in new records
+YAKU_CRYPTO_FIELDS	Which fields are encrypted, comma list (default body)
+YAKU_CRYPTO_KEK_REF	Where the gateway's master key is kept (file:// or env://)
+YAKU_DB_IDLE_SEC	Seconds before an unused MySQL connection is closed (300)
+YAKU_DB_INTERPOLATE	Values put into a statement by the driver: 1 round trip, not 3 (on)
+YAKU_DB_MAX_IDLE	Unused MySQL connections a role keeps ready per database (8 or 4)
+YAKU_DB_MAX_OPEN	Most MySQL connections one role keeps per database (16 or 8)
+YAKU_DB_QUEUE_LANES	Lists the billing events are spread over, 1 to 64 (4)
+YAKU_DEDUPE_TTL_SEC	Seconds a message is remembered to catch duplicates (1800)
+YAKU_DEFAULT_TTL_SEC	How long a message may wait to be sent, seconds (48 h)
+YAKU_DEPLOYMENT_ID	This gateway's name (e.g. lhr-1); set = it keeps its own queues
+YAKU_DLR_ADDR	Port where vendors post delivery receipts (default :8090)
+YAKU_DLR_CORRELATE_GRACE_MS	Wait before a receipt is called unmatched, ms (250)
+YAKU_ENV	Label shown on monitoring, e.g. production or staging
+YAKU_FX_TIMEOUT_MS	Longest one call to a currency rate provider may take, ms (3000)
+YAKU_GLOBAL_TPS	Gateway-wide limit, message parts per second; 0 = none
+YAKU_HEALTH_ADDR	Health-only port (/healthz, /readyz) of a role; unset = none
+YAKU_HLR_BACKEND	HLR database type: mysql or mssql (unset = from its DSN)
+YAKU_HLR_CALL_LOG	Live lookups keeping the provider's raw call: all, failed, off (all)
+YAKU_HLR_DIP_MCC_FIELD	Field in the lookup answer holding the country code (mcc)
+YAKU_HLR_DIP_MNC_FIELD	Field in the lookup answer holding the network code (mnc)
+YAKU_HLR_DIP_OK_FIELD	Field that must be true for a lookup to count; optional
+YAKU_HLR_DIP_PORTED_FIELD	Field saying the number moved network; optional
+YAKU_HLR_DIP_TIMEOUT_MS	Longest wait for one live lookup, ms (default 300)
+YAKU_HLR_DIP_URL	Live number-lookup URL with {msisdn}; unset = data only
+YAKU_HLR_DSN	HLR data, vendor sessions; unset = the queue database
+YAKU_HLR_MAX_INFLIGHT	Most live lookups at once (default 64)
+YAKU_HLR_READ_DSN	Read DSN of the HLR database; unset = read where it is written
+YAKU_HOT_BACKEND	Record database type: mysql or mssql (unset = from its DSN)
+YAKU_HOT_DAYS	Days of records kept before archiving, unless a company sets its own
+YAKU_HOT_DSN	Connection string for the recent-records database
+YAKU_HOT_MONTHS	Retired: read as days (x 30) while YAKU_HOT_DAYS is unset
+YAKU_HOT_READ_DSN	Read DSN of the record database; unset = read where it is written
+YAKU_HTTP_IDLE_PER_HOST	Idle connections kept per host for vendor calls and webhooks (512)
+YAKU_INBOUND_FAIL_THRESHOLD	Failed vendor logins before that vendor door locks (5)
+YAKU_INBOUND_IP_THRESHOLD	Failed vendor logins from one IP before it is slowed (20)
+YAKU_KMS_GCP_CREDENTIALS_REF	Where the Google service-account JSON is kept
+YAKU_KMS_GCP_ENABLED	on = companies may use their own Google Cloud KMS key
+YAKU_LEDGER_PER_MESSAGE	1 = still write a ledger row per message (only during an upgrade)
+YAKU_LOG_DIR	Folder for log files (default /var/log/yakugate)
+YAKU_LOG_LEVEL	Log level: debug, info, warn, error or none (info)
+YAKU_LOG_MAX_SIZE_MB	Start a new log file past this size, MB; 0 = none (100)
+YAKU_LOG_REDACT	Hide phone numbers and codes in logs; off = show (on)
+YAKU_LOG_REJECTS	off = do not record refused submits
+YAKU_LOG_RETENTION_DAYS	Delete log files older than this, days; 0 = keep (30)
+YAKU_LOSS_NO_RATE	Loss check when no exchange rate is known: refuse (default) or accept
+YAKU_MASK_MIN_DIGITS	Shortest digit run hidden when text is masked (default 4)
+YAKU_MAX_ATTEMPTS	Send tries per message before it fails (default 5)
+YAKU_MAX_BATCH	Most items in a personalised messages[] list (default 500)
+YAKU_MAX_RECIPIENTS	Most recipients in one submit request (default 500)
+YAKU_MAX_SEGMENTS	Most parts in one long message; longer is refused (default 10)
+YAKU_MIGRATE_SKIP_TRIGGERS	MySQL: skip triggers this login may not create (no audit hash chain)
+YAKU_MONITOR_CPU_PCT	Event when host CPU goes over this % (90)
+YAKU_MONITOR_EVENTS	Monitoring events on or off (on)
+YAKU_MONITOR_HISTORY	off = do not save monitoring history
+YAKU_MONITOR_HOLD	Intervals a condition must last to start or end an event (3)
+YAKU_MONITOR_LATENCY_MS	Event when acceptance p95 goes over this, in ms (50)
+YAKU_MONITOR_MEM_PCT	Event when host memory goes over this % (90)
+YAKU_MONITOR_MYSQL_CONN_PCT	MySQL connections over this % of max_connections is a warning (80)
+YAKU_MONITOR_QUEUE_AGE_SEC	Event when a queue's oldest ready message waits longer (300)
+YAKU_MONITOR_QUEUE_DEPTH	Event when more messages wait in one queue than this (10000)
+YAKU_MONITOR_REDIS_MEM_PCT	Redis memory over this % of maxmemory is a warning (80)
+YAKU_MONITOR_REJECT_MIN_TPS	Refusal share judged only at this many messages/s (1)
+YAKU_MONITOR_REJECT_PCT	Event when refused share of incoming goes over this % (20)
+YAKU_MONITOR_REPLICA_LAG_SEC	A MySQL replica further behind than this, in seconds, is a warning (30)
+YAKU_MONITOR_RETENTION_DAYS	Days every 5-second report is kept; 0 = all (3)
+YAKU_MONITOR_SPIKE_FACTOR	Event when incoming is this many times its usual level (3)
+YAKU_MONITOR_STORE_PING_MS	A MySQL or Redis round trip slower than this is a warning (100)
+YAKU_MONITOR_SUMMARY_DAYS	Days monitoring day summaries and events are kept (10)
+YAKU_MONITOR_TRAFFIC_MIN_TPS	Traffic stop/spike judged above this messages/s (1)
+YAKU_MO_ADDR	Port where vendors post incoming messages (default :8091)
+YAKU_ORPHAN_REMATCH_LIMIT	Unmatched receipts retried per pass (default 200)
+YAKU_ORPHAN_REMATCH_MAX_SEC	Longest wait between tries of a receipt that matches nothing (300)
+YAKU_ORPHAN_REMATCH_MINUTES	How far back unmatched receipts are retried, minutes (60)
+YAKU_ORPHAN_REMATCH_SEC	Seconds between retries of unmatched receipts; 0 = off (5)
+YAKU_PCAP_DIR	Folder for packet captures (default <log dir>/pcap)
+YAKU_PCAP_INTERFACE	Network interface tcpdump listens on (default any)
+YAKU_PCAP_MAX_MB	Stop a packet capture at this size, MB; 0 = none (256)
+YAKU_PCAP_TCPDUMP	tcpdump program name or full path (default tcpdump)
+YAKU_PUSH_BASE_DELAY_SEC	First wait before trying a client URL again, s (60)
+YAKU_PUSH_GIVE_UP_AFTER_SEC	Give up on a client URL after this many seconds (86400)
+YAKU_PUSH_MAX_ATTEMPTS	Tries to deliver a receipt/incoming to a client URL (30)
+YAKU_PUSH_MAX_DELAY_SEC	Longest wait between tries, seconds (default 3600)
+YAKU_PUSH_MULTIPLIER	Each wait is this many times the last (default 2)
+YAKU_QUALITY_MIN_SAMPLE	Results a vendor needs before it is judged (default 20)
+YAKU_QUALITY_WINDOW_MIN	Minutes of results used to judge a vendor (default 60)
+YAKU_QUEUE_BACKEND	Where queues run: mysql (default), mssql, or redis (Redis only)
+YAKU_QUEUE_BILLING_EVERY_MS	Ms between checks of the billing queue lanes, busy or idle (1000)
+YAKU_QUEUE_BILLING_PER_INTERVAL	Most items one check of the billing queue lanes takes (5000)
+YAKU_QUEUE_DLR_EVERY_MS	Ms between checks of the receipts for clients, busy or idle (1000)
+YAKU_QUEUE_DLR_PER_INTERVAL	Most items one check of the receipts for clients takes (5000)
+YAKU_QUEUE_DSN	The queue database (with YAKU_QUEUE_BACKEND=mysql or mssql)
+YAKU_QUEUE_EXPIRY_EVERY_MS	Retired 27 Oct 2026 with the expiry role: nothing reads it
+YAKU_QUEUE_EXPIRY_PER_INTERVAL	Retired 27 Oct 2026 with the expiry role: nothing reads it
+YAKU_QUEUE_HANDOFF_EVERY_MS	Ms between checks of the hand-off lists, busy or idle (1000)
+YAKU_QUEUE_HANDOFF_PER_INTERVAL	Most items one check of the hand-off lists takes (5000)
+YAKU_QUEUE_MO_EVERY_MS	Ms between checks of the MO for clients, busy or idle (1000)
+YAKU_QUEUE_MO_PER_INTERVAL	Most items one check of the MO for clients takes (5000)
+YAKU_QUEUE_MT_EVERY_MS	Ms between checks of the vendor queues, busy or idle (1000)
+YAKU_QUEUE_MT_PER_INTERVAL	Most items one check of the vendor queues takes (2000)
+YAKU_QUEUE_READ_DSN	Read DSN of the queue database; unset = read where it is written
+YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	Ms between checks of the receipt rows (rcptw), busy or idle (1000)
+YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	Most items one check of the receipt rows (rcptw) takes (5000)
+YAKU_QUEUE_RECORDS_EVERY_MS	Ms between checks of the record queue lanes, busy or idle (1000)
+YAKU_QUEUE_RECORDS_PER_INTERVAL	Most items one check of the record queue lanes takes (5000)
+YAKU_QUEUE_REDIS_ADDR	The queues' own Redis, host:port; unset = the main Redis
+YAKU_QUEUE_REDIS_DB	Database number on the queues' own Redis (default 0)
+YAKU_QUEUE_REDIS_FAILOVER_ADDR	Standby for the queues' own Redis, host:port
+YAKU_QUEUE_REDIS_MASTER_NAME	Name those Sentinels monitor the queues' Redis by
+YAKU_QUEUE_REDIS_PASSWORD	Password of the queues' own Redis
+YAKU_QUEUE_REDIS_SENTINEL_ADDRS	Sentinels of the queues' own Redis, host:port list
+YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	Password of the queue Redis's Sentinels, if any
+YAKU_QUEUE_REROUTE_EVERY_MS	Ms between checks of the re-route inbox, busy or idle (2000)
+YAKU_QUEUE_REROUTE_PER_INTERVAL	Most items one check of the re-route inbox takes (200)
+YAKU_QUEUE_RETRY_EVERY_MS	Retired 27 Oct 2026 with the retry role: nothing reads it
+YAKU_QUEUE_RETRY_PER_INTERVAL	Retired 27 Oct 2026 with the retry role: nothing reads it
+YAKU_RATE_HISTORY_HOURS	Hours back a message is priced by its accept-time rates (72; 0=off)
+YAKU_RECEIPTS_IN_REDIS	Receipts use Redis, MySQL written after in batches (on; 0 = off)
+YAKU_RECORDS_VIA	worker (default with Redis): the DB worker writes the records; direct
+YAKU_RECORD_LANES	Lists the record queue is spread over; a message keeps to one (4)
+YAKU_RECORD_QUEUE_MAX	Most records that may wait for the DB worker (2000000)
+YAKU_REDIS_ADDR	Redis host:port; set = queues and counters run in Redis
+YAKU_REDIS_BALANCE_TIMEOUT_MS	Wait for Redis in a balance deduction (connection + answer), ms (30000)
+YAKU_REDIS_DB	Redis database number (default 0)
+YAKU_REDIS_FAILOVER_ADDR	Standby Redis host:port, used when the main one fails
+YAKU_REDIS_MASTER_NAME	Name the Sentinels know the main Redis by (often mymaster)
+YAKU_REDIS_PASSWORD	Password for Redis
+YAKU_REDIS_POOL_SIZE	Connections one Redis client keeps (default 10 a CPU)
+YAKU_REDIS_POOL_TIMEOUT_MS	Wait for a free Redis connection before failing, ms (4000)
+YAKU_REDIS_SENTINEL_ADDRS	Sentinels as host:port,host:port; set = Sentinel finds the main Redis
+YAKU_REDIS_SENTINEL_PASSWORD	Password for the Sentinels themselves, when they have one
+YAKU_REDIS_SYNC_SEC	Seconds between copying settings from MySQL to Redis (default 30)
+YAKU_REDIS_WATCH_SEC	Seconds between checks for new settings in Redis (default 3)
+YAKU_REROUTE	off = do not move messages off a vendor that is down
+YAKU_RETENTION_INTERVAL_SEC	Seconds between archiving passes (default 3600)
+YAKU_RETENTION_SKIP_CHECKSUM	true = archive on row count alone when checksum fails
+YAKU_ROLES	Roles the whole gateway runs, comma list; empty = all
+YAKU_SENDER_MAX_ALPHA	Longest letter sender ID (default 11)
+YAKU_SENDER_MAX_NUMERIC	Longest number sender ID (default 15)
+YAKU_SMPP_ADDR	SMPP port for clients (default :2775); off = no plain port, TLS only
+YAKU_SMPP_DELIVER_BATCH	Receipts/incoming taken per pass for SMPP clients (200)
+YAKU_SMPP_DELIVER_MS	Retired: read for receipts and MO while YAKU_QUEUE_DLR/MO_* are unset
+YAKU_SMPP_DELIVER_WINDOW	Receipts and MO one client bind may have unanswered (64)
+YAKU_SMPP_DRAIN_SEC	Seconds a vendor bind waits for answers when stopping (5)
+YAKU_SMPP_MAX_CONNS	Most client SMPP connections at once; 0 = no limit (2000)
+YAKU_SMPP_SERVER_MAX_IN_FLIGHT	Submits smpp-server works on at once; off = no limit (25 a connection)
+YAKU_SMPP_SERVER_OVER_LIMIT	Over that limit: hold (wait their turn) or throttle (0x58) (hold)
+YAKU_SMPP_THROTTLE_PAUSE_SEC	Pause after a vendor says throttled, when its own is unset (1)
+YAKU_SMPP_TLS	off = no SMPP-over-TLS port even when the certificate is set
+YAKU_SMPP_TLS_ADDR	SMPP-over-TLS port for clients; unset = none
+YAKU_SMPP_TLS_CERT	Certificate file for the SMPP-over-TLS port
+YAKU_SMPP_TLS_CLIENT_CA	CA bundle; set = SMPP-TLS clients must show a certificate
+YAKU_SMPP_TLS_KEY	Private key file for the SMPP-over-TLS port
+YAKU_SMPP_VENDOR_INBOUND_WORKERS	Workers per vendor bind for receipts and incoming (4)
+YAKU_SMPP_WINDOW	Messages one client bind may have in flight (default 16)
+YAKU_SMPP_WINDOW_GRACE_MS	Wait for a free window slot before refusing, ms (200)
+YAKU_SPRAY_DISTINCT_THRESHOLD	Different logins one IP may try before it is blocked (3)
+YAKU_STATUS_KEY	Key for the read-only /status page; unset = /status off
+YAKU_STATUS_PUSH_SEC	Seconds between monitoring snapshots (default 5)
+YAKU_SUPERVISED	Set by the gateway on the roles it starts; not a file setting
+YAKU_TOKEN_PEPPER	Secret mixed into stored token digests; keep it secret
+YAKU_TRUSTED_PROXIES	Your own proxies (IPs/CIDRs) whose X-Forwarded-For is trusted
+YAKU_VENDOR_CALL_LOG	HTTP vendor answers keeping their raw call: all, failed, off (all)
+YAKU_VENDOR_RELOAD_SEC	Seconds between re-reading vendor settings (default 30)
+YAKU_VERSION	Build label shown on monitoring
+YAKU_WEBHOOK_CALL_LOG	Webhook tries keeping their request and answer: all, failed, off (all)
+YAKU_WEBHOOK_RELOAD_SEC	Seconds between checks for changed customer webhooks (3)
+YAKU_WORKER_CHARGES	Retired 26 Oct 2026: nothing reads it
+# suggest order: the names in the order Suggest tries them
+YAKU_ABUSE_INTERVAL_SEC
+YAKU_ABUSE_SOURCE
+YAKU_ADMIN_ADDR
+YAKU_ADMIN_ADDR_ABUSE_MONITOR
+YAKU_ADMIN_ADDR_BACKUP
+YAKU_ADMIN_ADDR_BILLING
+YAKU_ADMIN_ADDR_BLACKHOLE
+YAKU_ADMIN_ADDR_DB_WORKER
+YAKU_ADMIN_ADDR_DLR
+YAKU_ADMIN_ADDR_EXPIRY
+YAKU_ADMIN_ADDR_HTTP_SERVER
+YAKU_ADMIN_ADDR_HTTP_VENDOR
+YAKU_ADMIN_ADDR_MO
+YAKU_ADMIN_ADDR_RETENTION
+YAKU_ADMIN_ADDR_RETRY
+YAKU_ADMIN_ADDR_SMPP_SERVER
+YAKU_ADMIN_ADDR_SMPP_VENDOR
+YAKU_ADMIN_KEY
+YAKU_ADMIN_PASSWORD
+YAKU_ADMIN_USER
+YAKU_API_ADDR
+YAKU_API_TLS
+YAKU_API_TLS_ADDR
+YAKU_API_TLS_CERT
+YAKU_API_TLS_CLIENT_CA
+YAKU_API_TLS_KEY
+YAKU_AUTO_MIGRATE
+YAKU_AUTO_SEED
+YAKU_BACKUP_INTERVAL_SEC
+YAKU_BACKUP_KEEP
+YAKU_BACKUP_ROOT
+YAKU_BALANCE_REPLY_CACHE_MS
+YAKU_BILLING_BATCH
+YAKU_BILLING_DRAIN_SEC
+YAKU_BILLING_FULL_PASS_SEC
+YAKU_BILLING_HOT_DAYS
+YAKU_BILLING_INTERVAL_SEC
+YAKU_BILLING_MAX_RATING_ATTEMPTS
+YAKU_BLACKHOLE_BATCH
+YAKU_CACHE_REFRESH_SEC
+YAKU_CAPTURE_MAX_RECORDS
+YAKU_COLD_BACKEND
+YAKU_COLD_DSN
+YAKU_COLD_READ_DSN
+YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC
+YAKU_CONCAT_MO_STORE
+YAKU_CONCAT_MT_STORE
+YAKU_CONCAT_STALE_HOURS
+YAKU_CONFIG_BACKEND
+YAKU_CONFIG_DSN
+YAKU_CONFIG_READ_DSN
+YAKU_CONSOLE_MENUS
+YAKU_CONTROL_ADDR
+YAKU_CORS_ORIGINS
+YAKU_CRYPTO_AT_REST
+YAKU_CRYPTO_FIELDS
+YAKU_CRYPTO_KEK_REF
+YAKU_DB_IDLE_SEC
+YAKU_DB_INTERPOLATE
+YAKU_DB_MAX_IDLE
+YAKU_DB_MAX_OPEN
+YAKU_DEDUPE_TTL_SEC
+YAKU_DEFAULT_TTL_SEC
+YAKU_DEPLOYMENT_ID
+YAKU_DLR_ADDR
+YAKU_DLR_CORRELATE_GRACE_MS
+YAKU_ENV
+YAKU_GLOBAL_TPS
+YAKU_HEALTH_ADDR
+YAKU_HOT_DAYS
+YAKU_HOT_MONTHS
+YAKU_HTTP_IDLE_PER_HOST
+YAKU_HLR_DIP_MCC_FIELD
+YAKU_HLR_DIP_MNC_FIELD
+YAKU_HLR_DIP_OK_FIELD
+YAKU_HLR_DIP_PORTED_FIELD
+YAKU_HLR_DIP_TIMEOUT_MS
+YAKU_HLR_DIP_URL
+YAKU_HLR_MAX_INFLIGHT
+YAKU_HLR_BACKEND
+YAKU_HLR_READ_DSN
+YAKU_HOT_READ_DSN
+YAKU_ORPHAN_REMATCH_MAX_SEC
+YAKU_QUEUE_READ_DSN
+YAKU_QUEUE_REDIS_ADDR
+YAKU_QUEUE_REDIS_DB
+YAKU_QUEUE_REDIS_FAILOVER_ADDR
+YAKU_QUEUE_REDIS_MASTER_NAME
+YAKU_QUEUE_REDIS_PASSWORD
+YAKU_QUEUE_REDIS_SENTINEL_ADDRS
+YAKU_QUEUE_REDIS_SENTINEL_PASSWORD
+YAKU_HLR_DSN
+YAKU_FX_TIMEOUT_MS
+YAKU_RATE_HISTORY_HOURS
+YAKU_LEDGER_PER_MESSAGE
+YAKU_LOSS_NO_RATE
+YAKU_BASE_CURRENCY
+YAKU_HOT_BACKEND
+YAKU_HOT_DSN
+YAKU_INBOUND_FAIL_THRESHOLD
+YAKU_INBOUND_IP_THRESHOLD
+YAKU_KMS_GCP_CREDENTIALS_REF
+YAKU_KMS_GCP_ENABLED
+YAKU_LOG_DIR
+YAKU_LOG_LEVEL
+YAKU_LOG_MAX_SIZE_MB
+YAKU_LOG_REDACT
+YAKU_LOG_REJECTS
+YAKU_LOG_RETENTION_DAYS
+YAKU_MASK_MIN_DIGITS
+YAKU_MAX_ATTEMPTS
+YAKU_MAX_BATCH
+YAKU_MAX_RECIPIENTS
+YAKU_MAX_SEGMENTS
+YAKU_MO_ADDR
+YAKU_MONITOR_HISTORY
+YAKU_MONITOR_CPU_PCT
+YAKU_MONITOR_EVENTS
+YAKU_MONITOR_HOLD
+YAKU_MONITOR_LATENCY_MS
+YAKU_MONITOR_MEM_PCT
+YAKU_MONITOR_QUEUE_AGE_SEC
+YAKU_MONITOR_QUEUE_DEPTH
+YAKU_MONITOR_STORE_PING_MS
+YAKU_MONITOR_MYSQL_CONN_PCT
+YAKU_MONITOR_REDIS_MEM_PCT
+YAKU_MONITOR_REPLICA_LAG_SEC
+YAKU_MONITOR_REJECT_MIN_TPS
+YAKU_MONITOR_REJECT_PCT
+YAKU_MONITOR_SPIKE_FACTOR
+YAKU_MONITOR_SUMMARY_DAYS
+YAKU_MONITOR_TRAFFIC_MIN_TPS
+YAKU_MONITOR_RETENTION_DAYS
+YAKU_ORPHAN_REMATCH_LIMIT
+YAKU_ORPHAN_REMATCH_MINUTES
+YAKU_ORPHAN_REMATCH_SEC
+YAKU_PCAP_DIR
+YAKU_PCAP_INTERFACE
+YAKU_PCAP_MAX_MB
+YAKU_PCAP_TCPDUMP
+YAKU_PUSH_BASE_DELAY_SEC
+YAKU_PUSH_GIVE_UP_AFTER_SEC
+YAKU_PUSH_MAX_ATTEMPTS
+YAKU_PUSH_MAX_DELAY_SEC
+YAKU_PUSH_MULTIPLIER
+YAKU_QUALITY_MIN_SAMPLE
+YAKU_QUALITY_WINDOW_MIN
+YAKU_QUEUE_BACKEND
+YAKU_QUEUE_DSN
+YAKU_RECEIPTS_IN_REDIS
+YAKU_RECORDS_VIA
+YAKU_RECORD_LANES
+YAKU_DB_QUEUE_LANES
+YAKU_QUEUE_MT_EVERY_MS
+YAKU_QUEUE_MT_PER_INTERVAL
+YAKU_QUEUE_DLR_EVERY_MS
+YAKU_QUEUE_DLR_PER_INTERVAL
+YAKU_QUEUE_MO_EVERY_MS
+YAKU_QUEUE_MO_PER_INTERVAL
+YAKU_QUEUE_RECORDS_EVERY_MS
+YAKU_QUEUE_RECORDS_PER_INTERVAL
+YAKU_QUEUE_BILLING_EVERY_MS
+YAKU_QUEUE_BILLING_PER_INTERVAL
+YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS
+YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL
+YAKU_QUEUE_HANDOFF_EVERY_MS
+YAKU_QUEUE_HANDOFF_PER_INTERVAL
+YAKU_QUEUE_REROUTE_EVERY_MS
+YAKU_QUEUE_REROUTE_PER_INTERVAL
+YAKU_QUEUE_RETRY_EVERY_MS
+YAKU_QUEUE_RETRY_PER_INTERVAL
+YAKU_QUEUE_EXPIRY_EVERY_MS
+YAKU_QUEUE_EXPIRY_PER_INTERVAL
+YAKU_RECORD_QUEUE_MAX
+YAKU_REDIS_ADDR
+YAKU_REDIS_BALANCE_TIMEOUT_MS
+YAKU_REDIS_DB
+YAKU_REDIS_FAILOVER_ADDR
+YAKU_REDIS_MASTER_NAME
+YAKU_REDIS_PASSWORD
+YAKU_REDIS_POOL_SIZE
+YAKU_REDIS_POOL_TIMEOUT_MS
+YAKU_REDIS_SENTINEL_ADDRS
+YAKU_REDIS_SENTINEL_PASSWORD
+YAKU_REDIS_SYNC_SEC
+YAKU_REDIS_WATCH_SEC
+YAKU_REROUTE
+YAKU_RETENTION_INTERVAL_SEC
+YAKU_RETENTION_SKIP_CHECKSUM
+YAKU_ROLES
+YAKU_SENDER_MAX_ALPHA
+YAKU_SENDER_MAX_NUMERIC
+YAKU_SMPP_ADDR
+YAKU_SMPP_DELIVER_BATCH
+YAKU_SMPP_DELIVER_MS
+YAKU_SMPP_DRAIN_SEC
+YAKU_SMPP_MAX_CONNS
+YAKU_SMPP_SERVER_MAX_IN_FLIGHT
+YAKU_SMPP_SERVER_OVER_LIMIT
+YAKU_SMPP_THROTTLE_PAUSE_SEC
+YAKU_SMPP_TLS
+YAKU_SMPP_TLS_ADDR
+YAKU_SMPP_TLS_CERT
+YAKU_SMPP_TLS_CLIENT_CA
+YAKU_SMPP_TLS_KEY
+YAKU_SMPP_VENDOR_INBOUND_WORKERS
+YAKU_SMPP_DELIVER_WINDOW
+YAKU_SMPP_WINDOW
+YAKU_SMPP_WINDOW_GRACE_MS
+YAKU_SPRAY_DISTINCT_THRESHOLD
+YAKU_STATUS_KEY
+YAKU_STATUS_PUSH_SEC
+YAKU_SUPERVISED
+YAKU_TOKEN_PEPPER
+YAKU_TRUSTED_PROXIES
+YAKU_VENDOR_RELOAD_SEC
+YAKU_VERSION
+YAKU_WEBHOOK_RELOAD_SEC
+YAKU_WORKER_CHARGES
+YAKU_HLR_CALL_LOG
+YAKU_MIGRATE_SKIP_TRIGGERS
+YAKU_VENDOR_CALL_LOG
+YAKU_WEBHOOK_CALL_LOG
+# typos: a name, Known, Suggest and Describe of it
+	false		
+YAKU_NO_SUCH	false		
+YAKU_ADMIN_ADDR_NO_SUCH	false		
+YAKU_QUEUE_M_EVERY_MS	false	YAKU_QUEUE_MT_EVERY_MS	
+YAKU_QUEUE_MX_EVERY_MS	false	YAKU_QUEUE_MT_EVERY_MS	
+YAKU_ABUSE_INTERVAL_SE	false	YAKU_ABUSE_INTERVAL_SEC	
+YAKU_BUSE_INTERVAL_SEC	false	YAKU_ABUSE_INTERVAL_SEC	
+yaku_abuse_interval_sec	false	YAKU_ABUSE_INTERVAL_SEC	
+YAKU_ABUSE_QNTERVAL_SEC	false	YAKU_ABUSE_INTERVAL_SEC	
+YAKU_ABUSE_SOURC	false	YAKU_ABUSE_SOURCE	
+YAKU_BUSE_SOURCE	false	YAKU_ABUSE_SOURCE	
+yaku_abuse_source	false	YAKU_ABUSE_SOURCE	
+YAKU_ABUQE_SOURCE	false	YAKU_ABUSE_SOURCE	
+YAKU_ADMIN_ADD	false	YAKU_ADMIN_ADDR	
+YAKU_DMIN_ADDR	false	YAKU_ADMIN_ADDR	
+yaku_admin_addr	false	YAKU_ADMIN_ADDR	
+YAKU_ADQIN_ADDR	false	YAKU_ADMIN_ADDR	
+YAKU_ADMIN_ADDR_ABUSE_MONITO	false	YAKU_ADMIN_ADDR_ABUSE_MONITOR	
+YAKU_DMIN_ADDR_ABUSE_MONITOR	false	YAKU_ADMIN_ADDR_ABUSE_MONITOR	
+yaku_admin_addr_abuse_monitor	false	YAKU_ADMIN_ADDR_ABUSE_MONITOR	
+YAKU_ADMIN_ADDQ_ABUSE_MONITOR	false	YAKU_ADMIN_ADDR_ABUSE_MONITOR	
+YAKU_ADMIN_ADDR_BACKU	false	YAKU_ADMIN_ADDR_BACKUP	
+YAKU_DMIN_ADDR_BACKUP	false	YAKU_ADMIN_ADDR_BACKUP	
+yaku_admin_addr_backup	false	YAKU_ADMIN_ADDR_BACKUP	
+YAKU_ADMIN_QDDR_BACKUP	false	YAKU_ADMIN_ADDR_BACKUP	
+YAKU_ADMIN_ADDR_BILLIN	false	YAKU_ADMIN_ADDR_BILLING	
+YAKU_DMIN_ADDR_BILLING	false	YAKU_ADMIN_ADDR_BILLING	
+yaku_admin_addr_billing	false	YAKU_ADMIN_ADDR_BILLING	
+YAKU_ADMIN_QDDR_BILLING	false	YAKU_ADMIN_ADDR_BILLING	
+YAKU_ADMIN_ADDR_BLACKHOL	false	YAKU_ADMIN_ADDR_BLACKHOLE	
+YAKU_DMIN_ADDR_BLACKHOLE	false	YAKU_ADMIN_ADDR_BLACKHOLE	
+yaku_admin_addr_blackhole	false	YAKU_ADMIN_ADDR_BLACKHOLE	
+YAKU_ADMIN_AQDR_BLACKHOLE	false	YAKU_ADMIN_ADDR_BLACKHOLE	
+YAKU_ADMIN_ADDR_DB_WORKE	false	YAKU_ADMIN_ADDR_DB_WORKER	
+YAKU_DMIN_ADDR_DB_WORKER	false	YAKU_ADMIN_ADDR_DB_WORKER	
+yaku_admin_addr_db_worker	false	YAKU_ADMIN_ADDR_DB_WORKER	
+YAKU_ADMIN_AQDR_DB_WORKER	false	YAKU_ADMIN_ADDR_DB_WORKER	
+YAKU_ADMIN_ADDR_DL	false	YAKU_ADMIN_ADDR_DLR	
+YAKU_DMIN_ADDR_DLR	false	YAKU_ADMIN_ADDR_DLR	
+yaku_admin_addr_dlr	false	YAKU_ADMIN_ADDR_DLR	
+YAKU_ADMIQ_ADDR_DLR	false	YAKU_ADMIN_ADDR_DLR	
+YAKU_ADMIN_ADDR_EXPIR	false	YAKU_ADMIN_ADDR_EXPIRY	
+YAKU_DMIN_ADDR_EXPIRY	false	YAKU_ADMIN_ADDR_EXPIRY	
+yaku_admin_addr_expiry	false	YAKU_ADMIN_ADDR_EXPIRY	
+YAKU_ADMIN_QDDR_EXPIRY	false	YAKU_ADMIN_ADDR_EXPIRY	
+YAKU_ADMIN_ADDR_HTTP_SERVE	false	YAKU_ADMIN_ADDR_HTTP_SERVER	
+YAKU_DMIN_ADDR_HTTP_SERVER	false	YAKU_ADMIN_ADDR_HTTP_SERVER	
+yaku_admin_addr_http_server	false	YAKU_ADMIN_ADDR_HTTP_SERVER	
+YAKU_ADMIN_ADQR_HTTP_SERVER	false	YAKU_ADMIN_ADDR_HTTP_SERVER	
+YAKU_ADMIN_ADDR_HTTP_VENDO	false	YAKU_ADMIN_ADDR_HTTP_VENDOR	
+YAKU_DMIN_ADDR_HTTP_VENDOR	false	YAKU_ADMIN_ADDR_HTTP_VENDOR	
+yaku_admin_addr_http_vendor	false	YAKU_ADMIN_ADDR_HTTP_VENDOR	
+YAKU_ADMIN_ADQR_HTTP_VENDOR	false	YAKU_ADMIN_ADDR_HTTP_VENDOR	
+YAKU_ADMIN_ADDR_M	false	YAKU_ADMIN_ADDR_MO	
+YAKU_DMIN_ADDR_MO	false	YAKU_ADMIN_ADDR_MO	
+yaku_admin_addr_mo	false	YAKU_ADMIN_ADDR_MO	
+YAKU_ADMIQ_ADDR_MO	false	YAKU_ADMIN_ADDR_MO	
+YAKU_ADMIN_ADDR_RETENTIO	false	YAKU_ADMIN_ADDR_RETENTION	
+YAKU_DMIN_ADDR_RETENTION	false	YAKU_ADMIN_ADDR_RETENTION	
+yaku_admin_addr_retention	false	YAKU_ADMIN_ADDR_RETENTION	
+YAKU_ADMIN_AQDR_RETENTION	false	YAKU_ADMIN_ADDR_RETENTION	
+YAKU_ADMIN_ADDR_RETR	false	YAKU_ADMIN_ADDR_RETRY	
+YAKU_DMIN_ADDR_RETRY	false	YAKU_ADMIN_ADDR_RETRY	
+yaku_admin_addr_retry	false	YAKU_ADMIN_ADDR_RETRY	
+YAKU_ADMINQADDR_RETRY	false	YAKU_ADMIN_ADDR_RETRY	
+YAKU_ADMIN_ADDR_SMPP_SERVE	false	YAKU_ADMIN_ADDR_SMPP_SERVER	
+YAKU_DMIN_ADDR_SMPP_SERVER	false	YAKU_ADMIN_ADDR_SMPP_SERVER	
+yaku_admin_addr_smpp_server	false	YAKU_ADMIN_ADDR_SMPP_SERVER	
+YAKU_ADMIN_ADQR_SMPP_SERVER	false	YAKU_ADMIN_ADDR_SMPP_SERVER	
+YAKU_ADMIN_ADDR_SMPP_VENDO	false	YAKU_ADMIN_ADDR_SMPP_VENDOR	
+YAKU_DMIN_ADDR_SMPP_VENDOR	false	YAKU_ADMIN_ADDR_SMPP_VENDOR	
+yaku_admin_addr_smpp_vendor	false	YAKU_ADMIN_ADDR_SMPP_VENDOR	
+YAKU_ADMIN_ADQR_SMPP_VENDOR	false	YAKU_ADMIN_ADDR_SMPP_VENDOR	
+YAKU_ADMIN_KE	false	YAKU_ADMIN_KEY	
+YAKU_DMIN_KEY	false	YAKU_ADMIN_KEY	
+yaku_admin_key	false	YAKU_ADMIN_KEY	
+YAKU_ADQIN_KEY	false	YAKU_ADMIN_KEY	
+YAKU_ADMIN_PASSWOR	false	YAKU_ADMIN_PASSWORD	
+YAKU_DMIN_PASSWORD	false	YAKU_ADMIN_PASSWORD	
+yaku_admin_password	false	YAKU_ADMIN_PASSWORD	
+YAKU_ADMIQ_PASSWORD	false	YAKU_ADMIN_PASSWORD	
+YAKU_ADMIN_USE	false	YAKU_ADMIN_USER	
+YAKU_DMIN_USER	false	YAKU_ADMIN_USER	
+yaku_admin_user	false	YAKU_ADMIN_USER	
+YAKU_ADQIN_USER	false	YAKU_ADMIN_USER	
+YAKU_API_ADD	false	YAKU_API_ADDR	
+YAKU_PI_ADDR	false	YAKU_API_ADDR	
+yaku_api_addr	false	YAKU_API_ADDR	
+YAKU_AQI_ADDR	false	YAKU_API_ADDR	
+YAKU_API_TL	false	YAKU_API_TLS	
+YAKU_PI_TLS	false	YAKU_API_TLS	
+yaku_api_tls	false	YAKU_API_TLS	
+YAKU_AQI_TLS	false	YAKU_API_TLS	
+YAKU_API_TLS_ADD	false	YAKU_API_TLS_ADDR	
+YAKU_PI_TLS_ADDR	false	YAKU_API_TLS_ADDR	
+yaku_api_tls_addr	false	YAKU_API_TLS_ADDR	
+YAKU_APIQTLS_ADDR	false	YAKU_API_TLS_ADDR	
+YAKU_API_TLS_CER	false	YAKU_API_TLS_CERT	
+YAKU_PI_TLS_CERT	false	YAKU_API_TLS_CERT	
+yaku_api_tls_cert	false	YAKU_API_TLS_CERT	
+YAKU_APIQTLS_CERT	false	YAKU_API_TLS_CERT	
+YAKU_API_TLS_CLIENT_C	false	YAKU_API_TLS_CLIENT_CA	
+YAKU_PI_TLS_CLIENT_CA	false	YAKU_API_TLS_CLIENT_CA	
+yaku_api_tls_client_ca	false	YAKU_API_TLS_CLIENT_CA	
+YAKU_API_TLQ_CLIENT_CA	false	YAKU_API_TLS_CLIENT_CA	
+YAKU_API_TLS_KE	false	YAKU_API_TLS_KEY	
+YAKU_PI_TLS_KEY	false	YAKU_API_TLS_KEY	
+yaku_api_tls_key	false	YAKU_API_TLS_KEY	
+YAKU_APIQTLS_KEY	false	YAKU_API_TLS_KEY	
+YAKU_AUTO_MIGRAT	false	YAKU_AUTO_MIGRATE	
+YAKU_UTO_MIGRATE	false	YAKU_AUTO_MIGRATE	
+yaku_auto_migrate	false	YAKU_AUTO_MIGRATE	
+YAKU_AUTQ_MIGRATE	false	YAKU_AUTO_MIGRATE	
+YAKU_AUTO_SEE	false	YAKU_AUTO_SEED	
+YAKU_UTO_SEED	false	YAKU_AUTO_SEED	
+yaku_auto_seed	false	YAKU_AUTO_SEED	
+YAKU_AUQO_SEED	false	YAKU_AUTO_SEED	
+YAKU_BACKUP_INTERVAL_SE	false	YAKU_BACKUP_INTERVAL_SEC	
+YAKU_ACKUP_INTERVAL_SEC	false	YAKU_BACKUP_INTERVAL_SEC	
+yaku_backup_interval_sec	false	YAKU_BACKUP_INTERVAL_SEC	
+YAKU_BACKUP_QNTERVAL_SEC	false	YAKU_BACKUP_INTERVAL_SEC	
+YAKU_BACKUP_KEE	false	YAKU_BACKUP_KEEP	
+YAKU_ACKUP_KEEP	false	YAKU_BACKUP_KEEP	
+yaku_backup_keep	false	YAKU_BACKUP_KEEP	
+YAKU_BACQUP_KEEP	false	YAKU_BACKUP_KEEP	
+YAKU_BACKUP_ROO	false	YAKU_BACKUP_ROOT	
+YAKU_ACKUP_ROOT	false	YAKU_BACKUP_ROOT	
+yaku_backup_root	false	YAKU_BACKUP_ROOT	
+YAKU_BACQUP_ROOT	false	YAKU_BACKUP_ROOT	
+YAKU_BALANCE_REPLY_CACHE_M	false	YAKU_BALANCE_REPLY_CACHE_MS	
+YAKU_ALANCE_REPLY_CACHE_MS	false	YAKU_BALANCE_REPLY_CACHE_MS	
+yaku_balance_reply_cache_ms	false	YAKU_BALANCE_REPLY_CACHE_MS	
+YAKU_BALANCE_QEPLY_CACHE_MS	false	YAKU_BALANCE_REPLY_CACHE_MS	
+YAKU_BASE_CURRENC	false	YAKU_BASE_CURRENCY	
+YAKU_ASE_CURRENCY	false	YAKU_BASE_CURRENCY	
+yaku_base_currency	false	YAKU_BASE_CURRENCY	
+YAKU_BASEQCURRENCY	false	YAKU_BASE_CURRENCY	
+YAKU_BILLING_BATC	false	YAKU_BILLING_BATCH	
+YAKU_ILLING_BATCH	false	YAKU_BILLING_BATCH	
+yaku_billing_batch	false	YAKU_BILLING_BATCH	
+YAKU_BILLQNG_BATCH	false	YAKU_BILLING_BATCH	
+YAKU_BILLING_DRAIN_SE	false	YAKU_BILLING_DRAIN_SEC	
+YAKU_ILLING_DRAIN_SEC	false	YAKU_BILLING_DRAIN_SEC	
+yaku_billing_drain_sec	false	YAKU_BILLING_DRAIN_SEC	
+YAKU_BILLINQ_DRAIN_SEC	false	YAKU_BILLING_DRAIN_SEC	
+YAKU_BILLING_FULL_PASS_SE	false	YAKU_BILLING_FULL_PASS_SEC	
+YAKU_ILLING_FULL_PASS_SEC	false	YAKU_BILLING_FULL_PASS_SEC	
+yaku_billing_full_pass_sec	false	YAKU_BILLING_FULL_PASS_SEC	
+YAKU_BILLING_QULL_PASS_SEC	false	YAKU_BILLING_FULL_PASS_SEC	
+YAKU_BILLING_HOT_DAY	false	YAKU_BILLING_HOT_DAYS	
+YAKU_ILLING_HOT_DAYS	false	YAKU_BILLING_HOT_DAYS	
+yaku_billing_hot_days	false	YAKU_BILLING_HOT_DAYS	
+YAKU_BILLIQG_HOT_DAYS	false	YAKU_BILLING_HOT_DAYS	
+YAKU_BILLING_INTERVAL_SE	false	YAKU_BILLING_INTERVAL_SEC	
+YAKU_ILLING_INTERVAL_SEC	false	YAKU_BILLING_INTERVAL_SEC	
+yaku_billing_interval_sec	false	YAKU_BILLING_INTERVAL_SEC	
+YAKU_BILLINGQINTERVAL_SEC	false	YAKU_BILLING_INTERVAL_SEC	
+YAKU_BILLING_MAX_RATING_ATTEMPT	false	YAKU_BILLING_MAX_RATING_ATTEMPTS	
+YAKU_ILLING_MAX_RATING_ATTEMPTS	false	YAKU_BILLING_MAX_RATING_ATTEMPTS	
+yaku_billing_max_rating_attempts	false	YAKU_BILLING_MAX_RATING_ATTEMPTS	
+YAKU_BILLING_MAXQRATING_ATTEMPTS	false	YAKU_BILLING_MAX_RATING_ATTEMPTS	
+YAKU_BLACKHOLE_BATC	false	YAKU_BLACKHOLE_BATCH	
+YAKU_LACKHOLE_BATCH	false	YAKU_BLACKHOLE_BATCH	
+yaku_blackhole_batch	false	YAKU_BLACKHOLE_BATCH	
+YAKU_BLACKQOLE_BATCH	false	YAKU_BLACKHOLE_BATCH	
+YAKU_CACHE_REFRESH_SE	false	YAKU_CACHE_REFRESH_SEC	
+YAKU_ACHE_REFRESH_SEC	false	YAKU_CACHE_REFRESH_SEC	
+yaku_cache_refresh_sec	false	YAKU_CACHE_REFRESH_SEC	
+YAKU_CACHE_QEFRESH_SEC	false	YAKU_CACHE_REFRESH_SEC	
+YAKU_CAPTURE_MAX_RECORD	false	YAKU_CAPTURE_MAX_RECORDS	
+YAKU_APTURE_MAX_RECORDS	false	YAKU_CAPTURE_MAX_RECORDS	
+yaku_capture_max_records	false	YAKU_CAPTURE_MAX_RECORDS	
+YAKU_CAPTUREQMAX_RECORDS	false	YAKU_CAPTURE_MAX_RECORDS	
+YAKU_COLD_BACKEN	false	YAKU_COLD_BACKEND	
+YAKU_OLD_BACKEND	false	YAKU_COLD_BACKEND	
+yaku_cold_backend	false	YAKU_COLD_BACKEND	
+YAKU_COLQ_BACKEND	false	YAKU_COLD_BACKEND	
+YAKU_COLD_DS	false	YAKU_COLD_DSN	
+YAKU_OLD_DSN	false	YAKU_COLD_DSN	
+yaku_cold_dsn	false	YAKU_COLD_DSN	
+YAKU_CQLD_DSN	false	YAKU_COLD_DSN	
+YAKU_COLD_READ_DS	false	YAKU_COLD_READ_DSN	
+YAKU_OLD_READ_DSN	false	YAKU_COLD_READ_DSN	
+yaku_cold_read_dsn	false	YAKU_COLD_READ_DSN	
+YAKU_COLDQREAD_DSN	false	YAKU_COLD_READ_DSN	
+YAKU_CONCAT_ASSEMBLY_TIMEOUT_SE	false	YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	
+YAKU_ONCAT_ASSEMBLY_TIMEOUT_SEC	false	YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	
+yaku_concat_assembly_timeout_sec	false	YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	
+YAKU_CONCAT_ASSEQBLY_TIMEOUT_SEC	false	YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	
+YAKU_CONCAT_MO_STOR	false	YAKU_CONCAT_MO_STORE	
+YAKU_ONCAT_MO_STORE	false	YAKU_CONCAT_MO_STORE	
+yaku_concat_mo_store	false	YAKU_CONCAT_MO_STORE	
+YAKU_CONCAQ_MO_STORE	false	YAKU_CONCAT_MO_STORE	
+YAKU_CONCAT_MT_STOR	false	YAKU_CONCAT_MT_STORE	
+YAKU_ONCAT_MT_STORE	false	YAKU_CONCAT_MT_STORE	
+yaku_concat_mt_store	false	YAKU_CONCAT_MT_STORE	
+YAKU_CONCAQ_MT_STORE	false	YAKU_CONCAT_MT_STORE	
+YAKU_CONCAT_STALE_HOUR	false	YAKU_CONCAT_STALE_HOURS	
+YAKU_ONCAT_STALE_HOURS	false	YAKU_CONCAT_STALE_HOURS	
+yaku_concat_stale_hours	false	YAKU_CONCAT_STALE_HOURS	
+YAKU_CONCATQSTALE_HOURS	false	YAKU_CONCAT_STALE_HOURS	
+YAKU_CONFIG_BACKEN	false	YAKU_CONFIG_BACKEND	
+YAKU_ONFIG_BACKEND	false	YAKU_CONFIG_BACKEND	
+yaku_config_backend	false	YAKU_CONFIG_BACKEND	
+YAKU_CONFQG_BACKEND	false	YAKU_CONFIG_BACKEND	
+YAKU_CONFIG_DS	false	YAKU_CONFIG_DSN	
+YAKU_ONFIG_DSN	false	YAKU_CONFIG_DSN	
+yaku_config_dsn	false	YAKU_CONFIG_DSN	
+YAKU_COQFIG_DSN	false	YAKU_CONFIG_DSN	
+YAKU_CONFIG_READ_DS	false	YAKU_CONFIG_READ_DSN	
+YAKU_ONFIG_READ_DSN	false	YAKU_CONFIG_READ_DSN	
+yaku_config_read_dsn	false	YAKU_CONFIG_READ_DSN	
+YAKU_CONFIQ_READ_DSN	false	YAKU_CONFIG_READ_DSN	
+YAKU_CONSOLE_MENU	false	YAKU_CONSOLE_MENUS	
+YAKU_ONSOLE_MENUS	false	YAKU_CONSOLE_MENUS	
+yaku_console_menus	false	YAKU_CONSOLE_MENUS	
+YAKU_CONSQLE_MENUS	false	YAKU_CONSOLE_MENUS	
+YAKU_CONTROL_ADD	false	YAKU_CONTROL_ADDR	
+YAKU_ONTROL_ADDR	false	YAKU_CONTROL_ADDR	
+yaku_control_addr	false	YAKU_CONTROL_ADDR	
+YAKU_CONQROL_ADDR	false	YAKU_CONTROL_ADDR	
+YAKU_CORS_ORIGIN	false	YAKU_CORS_ORIGINS	
+YAKU_ORS_ORIGINS	false	YAKU_CORS_ORIGINS	
+yaku_cors_origins	false	YAKU_CORS_ORIGINS	
+YAKU_CORQ_ORIGINS	false	YAKU_CORS_ORIGINS	
+YAKU_CRYPTO_AT_RES	false	YAKU_CRYPTO_AT_REST	
+YAKU_RYPTO_AT_REST	false	YAKU_CRYPTO_AT_REST	
+yaku_crypto_at_rest	false	YAKU_CRYPTO_AT_REST	
+YAKU_CRYPQO_AT_REST	false	YAKU_CRYPTO_AT_REST	
+YAKU_CRYPTO_FIELD	false	YAKU_CRYPTO_FIELDS	
+YAKU_RYPTO_FIELDS	false	YAKU_CRYPTO_FIELDS	
+yaku_crypto_fields	false	YAKU_CRYPTO_FIELDS	
+YAKU_CRYPQO_FIELDS	false	YAKU_CRYPTO_FIELDS	
+YAKU_CRYPTO_KEK_RE	false	YAKU_CRYPTO_KEK_REF	
+YAKU_RYPTO_KEK_REF	false	YAKU_CRYPTO_KEK_REF	
+yaku_crypto_kek_ref	false	YAKU_CRYPTO_KEK_REF	
+YAKU_CRYPQO_KEK_REF	false	YAKU_CRYPTO_KEK_REF	
+YAKU_DB_IDLE_SE	false	YAKU_DB_IDLE_SEC	
+YAKU_B_IDLE_SEC	false	YAKU_DB_IDLE_SEC	
+yaku_db_idle_sec	false	YAKU_DB_IDLE_SEC	
+YAKU_DB_QDLE_SEC	false	YAKU_DB_IDLE_SEC	
+YAKU_DB_INTERPOLAT	false	YAKU_DB_INTERPOLATE	
+YAKU_B_INTERPOLATE	false	YAKU_DB_INTERPOLATE	
+yaku_db_interpolate	false	YAKU_DB_INTERPOLATE	
+YAKU_DB_IQTERPOLATE	false	YAKU_DB_INTERPOLATE	
+YAKU_DB_MAX_IDL	false	YAKU_DB_MAX_IDLE	
+YAKU_B_MAX_IDLE	false	YAKU_DB_MAX_IDLE	
+yaku_db_max_idle	false	YAKU_DB_MAX_IDLE	
+YAKU_DB_QAX_IDLE	false	YAKU_DB_MAX_IDLE	
+YAKU_DB_MAX_OPE	false	YAKU_DB_MAX_OPEN	
+YAKU_B_MAX_OPEN	false	YAKU_DB_MAX_OPEN	
+yaku_db_max_open	false	YAKU_DB_MAX_OPEN	
+YAKU_DB_QAX_OPEN	false	YAKU_DB_MAX_OPEN	
+YAKU_DB_QUEUE_LANE	false	YAKU_DB_QUEUE_LANES	
+YAKU_B_QUEUE_LANES	false	YAKU_DB_QUEUE_LANES	
+yaku_db_queue_lanes	false	YAKU_DB_QUEUE_LANES	
+YAKU_DB_QQEUE_LANES	false	YAKU_DB_QUEUE_LANES	
+YAKU_DEDUPE_TTL_SE	false	YAKU_DEDUPE_TTL_SEC	
+YAKU_EDUPE_TTL_SEC	false	YAKU_DEDUPE_TTL_SEC	
+yaku_dedupe_ttl_sec	false	YAKU_DEDUPE_TTL_SEC	
+YAKU_DEDUQE_TTL_SEC	false	YAKU_DEDUPE_TTL_SEC	
+YAKU_DEFAULT_TTL_SE	false	YAKU_DEFAULT_TTL_SEC	
+YAKU_EFAULT_TTL_SEC	false	YAKU_DEFAULT_TTL_SEC	
+yaku_default_ttl_sec	false	YAKU_DEFAULT_TTL_SEC	
+YAKU_DEFAUQT_TTL_SEC	false	YAKU_DEFAULT_TTL_SEC	
+YAKU_DEPLOYMENT_I	false	YAKU_DEPLOYMENT_ID	
+YAKU_EPLOYMENT_ID	false	YAKU_DEPLOYMENT_ID	
+yaku_deployment_id	false	YAKU_DEPLOYMENT_ID	
+YAKU_DEPLQYMENT_ID	false	YAKU_DEPLOYMENT_ID	
+YAKU_DLR_ADD	false	YAKU_DLR_ADDR	
+YAKU_LR_ADDR	false	YAKU_DLR_ADDR	
+yaku_dlr_addr	false	YAKU_DLR_ADDR	
+YAKU_DQR_ADDR	false	YAKU_DLR_ADDR	
+YAKU_DLR_CORRELATE_GRACE_M	false	YAKU_DLR_CORRELATE_GRACE_MS	
+YAKU_LR_CORRELATE_GRACE_MS	false	YAKU_DLR_CORRELATE_GRACE_MS	
+yaku_dlr_correlate_grace_ms	false	YAKU_DLR_CORRELATE_GRACE_MS	
+YAKU_DLR_CORRQLATE_GRACE_MS	false	YAKU_DLR_CORRELATE_GRACE_MS	
+YAKU_EN	false	YAKU_ENV	
+YAKU_NV	false	YAKU_ENV	
+yaku_env	false	YAKU_ENV	
+YAKUQENV	false	YAKU_ENV	
+YAKU_FX_TIMEOUT_M	false	YAKU_FX_TIMEOUT_MS	
+YAKU_X_TIMEOUT_MS	false	YAKU_FX_TIMEOUT_MS	
+yaku_fx_timeout_ms	false	YAKU_FX_TIMEOUT_MS	
+YAKU_FX_TQMEOUT_MS	false	YAKU_FX_TIMEOUT_MS	
+YAKU_GLOBAL_TP	false	YAKU_GLOBAL_TPS	
+YAKU_LOBAL_TPS	false	YAKU_GLOBAL_TPS	
+yaku_global_tps	false	YAKU_GLOBAL_TPS	
+YAKU_GLQBAL_TPS	false	YAKU_GLOBAL_TPS	
+YAKU_HEALTH_ADD	false	YAKU_HEALTH_ADDR	
+YAKU_EALTH_ADDR	false	YAKU_HEALTH_ADDR	
+yaku_health_addr	false	YAKU_HEALTH_ADDR	
+YAKU_HEAQTH_ADDR	false	YAKU_HEALTH_ADDR	
+YAKU_HLR_BACKEN	false	YAKU_HLR_BACKEND	
+YAKU_LR_BACKEND	false	YAKU_HLR_BACKEND	
+yaku_hlr_backend	false	YAKU_HLR_BACKEND	
+YAKU_HLRQBACKEND	false	YAKU_HLR_BACKEND	
+YAKU_HLR_CALL_LO	false	YAKU_HLR_CALL_LOG	
+YAKU_LR_CALL_LOG	false	YAKU_HLR_CALL_LOG	
+yaku_hlr_call_log	false	YAKU_HLR_CALL_LOG	
+YAKU_HLRQCALL_LOG	false	YAKU_HLR_CALL_LOG	
+YAKU_HLR_DIP_MCC_FIEL	false	YAKU_HLR_DIP_MCC_FIELD	
+YAKU_LR_DIP_MCC_FIELD	false	YAKU_HLR_DIP_MCC_FIELD	
+yaku_hlr_dip_mcc_field	false	YAKU_HLR_DIP_MCC_FIELD	
+YAKU_HLR_DIQ_MCC_FIELD	false	YAKU_HLR_DIP_MCC_FIELD	
+YAKU_HLR_DIP_MNC_FIEL	false	YAKU_HLR_DIP_MNC_FIELD	
+YAKU_LR_DIP_MNC_FIELD	false	YAKU_HLR_DIP_MNC_FIELD	
+yaku_hlr_dip_mnc_field	false	YAKU_HLR_DIP_MNC_FIELD	
+YAKU_HLR_DIQ_MNC_FIELD	false	YAKU_HLR_DIP_MNC_FIELD	
+YAKU_HLR_DIP_OK_FIEL	false	YAKU_HLR_DIP_OK_FIELD	
+YAKU_LR_DIP_OK_FIELD	false	YAKU_HLR_DIP_OK_FIELD	
+yaku_hlr_dip_ok_field	false	YAKU_HLR_DIP_OK_FIELD	
+YAKU_HLR_DQP_OK_FIELD	false	YAKU_HLR_DIP_OK_FIELD	
+YAKU_HLR_DIP_PORTED_FIEL	false	YAKU_HLR_DIP_PORTED_FIELD	
+YAKU_LR_DIP_PORTED_FIELD	false	YAKU_HLR_DIP_PORTED_FIELD	
+yaku_hlr_dip_ported_field	false	YAKU_HLR_DIP_PORTED_FIELD	
+YAKU_HLR_DIPQPORTED_FIELD	false	YAKU_HLR_DIP_PORTED_FIELD	
+YAKU_HLR_DIP_TIMEOUT_M	false	YAKU_HLR_DIP_TIMEOUT_MS	
+YAKU_LR_DIP_TIMEOUT_MS	false	YAKU_HLR_DIP_TIMEOUT_MS	
+yaku_hlr_dip_timeout_ms	false	YAKU_HLR_DIP_TIMEOUT_MS	
+YAKU_HLR_DIQ_TIMEOUT_MS	false	YAKU_HLR_DIP_TIMEOUT_MS	
+YAKU_HLR_DIP_UR	false	YAKU_HLR_DIP_URL	
+YAKU_LR_DIP_URL	false	YAKU_HLR_DIP_URL	
+yaku_hlr_dip_url	false	YAKU_HLR_DIP_URL	
+YAKU_HLRQDIP_URL	false	YAKU_HLR_DIP_URL	
+YAKU_HLR_DS	false	YAKU_HLR_DSN	
+YAKU_LR_DSN	false	YAKU_HLR_DSN	
+yaku_hlr_dsn	false	YAKU_HLR_DSN	
+YAKU_HQR_DSN	false	YAKU_HLR_DSN	
+YAKU_HLR_MAX_INFLIGH	false	YAKU_HLR_MAX_INFLIGHT	
+YAKU_LR_MAX_INFLIGHT	false	YAKU_HLR_MAX_INFLIGHT	
+yaku_hlr_max_inflight	false	YAKU_HLR_MAX_INFLIGHT	
+YAKU_HLR_MQX_INFLIGHT	false	YAKU_HLR_MAX_INFLIGHT	
+YAKU_HLR_READ_DS	false	YAKU_HLR_READ_DSN	
+YAKU_LR_READ_DSN	false	YAKU_HLR_READ_DSN	
+yaku_hlr_read_dsn	false	YAKU_HLR_READ_DSN	
+YAKU_HLRQREAD_DSN	false	YAKU_HLR_READ_DSN	
+YAKU_HOT_BACKEN	false	YAKU_HOT_BACKEND	
+YAKU_OT_BACKEND	false	YAKU_HOT_BACKEND	
+yaku_hot_backend	false	YAKU_HOT_BACKEND	
+YAKU_HOTQBACKEND	false	YAKU_HOT_BACKEND	
+YAKU_HOT_DAY	false	YAKU_HOT_DAYS	
+YAKU_OT_DAYS	false	YAKU_HOT_DAYS	
+yaku_hot_days	false	YAKU_HOT_DAYS	
+YAKU_HQT_DAYS	false	YAKU_HOT_DAYS	
+YAKU_HOT_DS	false	YAKU_HOT_DSN	
+YAKU_OT_DSN	false	YAKU_HOT_DSN	
+yaku_hot_dsn	false	YAKU_HOT_DSN	
+YAKU_HQT_DSN	false	YAKU_HOT_DSN	
+YAKU_HOT_MONTH	false	YAKU_HOT_MONTHS	
+YAKU_OT_MONTHS	false	YAKU_HOT_MONTHS	
+yaku_hot_months	false	YAKU_HOT_MONTHS	
+YAKU_HOQ_MONTHS	false	YAKU_HOT_MONTHS	
+YAKU_HOT_READ_DS	false	YAKU_HOT_READ_DSN	
+YAKU_OT_READ_DSN	false	YAKU_HOT_READ_DSN	
+yaku_hot_read_dsn	false	YAKU_HOT_READ_DSN	
+YAKU_HOTQREAD_DSN	false	YAKU_HOT_READ_DSN	
+YAKU_HTTP_IDLE_PER_HOS	false	YAKU_HTTP_IDLE_PER_HOST	
+YAKU_TTP_IDLE_PER_HOST	false	YAKU_HTTP_IDLE_PER_HOST	
+yaku_http_idle_per_host	false	YAKU_HTTP_IDLE_PER_HOST	
+YAKU_HTTP_IQLE_PER_HOST	false	YAKU_HTTP_IDLE_PER_HOST	
+YAKU_INBOUND_FAIL_THRESHOL	false	YAKU_INBOUND_FAIL_THRESHOLD	
+YAKU_NBOUND_FAIL_THRESHOLD	false	YAKU_INBOUND_FAIL_THRESHOLD	
+yaku_inbound_fail_threshold	false	YAKU_INBOUND_FAIL_THRESHOLD	
+YAKU_INBOUND_QAIL_THRESHOLD	false	YAKU_INBOUND_FAIL_THRESHOLD	
+YAKU_INBOUND_IP_THRESHOL	false	YAKU_INBOUND_IP_THRESHOLD	
+YAKU_NBOUND_IP_THRESHOLD	false	YAKU_INBOUND_IP_THRESHOLD	
+yaku_inbound_ip_threshold	false	YAKU_INBOUND_IP_THRESHOLD	
+YAKU_INBOUNDQIP_THRESHOLD	false	YAKU_INBOUND_IP_THRESHOLD	
+YAKU_KMS_GCP_CREDENTIALS_RE	false	YAKU_KMS_GCP_CREDENTIALS_REF	
+YAKU_MS_GCP_CREDENTIALS_REF	false	YAKU_KMS_GCP_CREDENTIALS_REF	
+yaku_kms_gcp_credentials_ref	false	YAKU_KMS_GCP_CREDENTIALS_REF	
+YAKU_KMS_GCP_CQEDENTIALS_REF	false	YAKU_KMS_GCP_CREDENTIALS_REF	
+YAKU_KMS_GCP_ENABLE	false	YAKU_KMS_GCP_ENABLED	
+YAKU_MS_GCP_ENABLED	false	YAKU_KMS_GCP_ENABLED	
+yaku_kms_gcp_enabled	false	YAKU_KMS_GCP_ENABLED	
+YAKU_KMS_GQP_ENABLED	false	YAKU_KMS_GCP_ENABLED	
+YAKU_LEDGER_PER_MESSAG	false	YAKU_LEDGER_PER_MESSAGE	
+YAKU_EDGER_PER_MESSAGE	false	YAKU_LEDGER_PER_MESSAGE	
+yaku_ledger_per_message	false	YAKU_LEDGER_PER_MESSAGE	
+YAKU_LEDGERQPER_MESSAGE	false	YAKU_LEDGER_PER_MESSAGE	
+YAKU_LOG_DI	false	YAKU_LOG_DIR	
+YAKU_OG_DIR	false	YAKU_LOG_DIR	
+yaku_log_dir	false	YAKU_LOG_DIR	
+YAKU_LQG_DIR	false	YAKU_LOG_DIR	
+YAKU_LOG_LEVE	false	YAKU_LOG_LEVEL	
+YAKU_OG_LEVEL	false	YAKU_LOG_LEVEL	
+yaku_log_level	false	YAKU_LOG_LEVEL	
+YAKU_LOQ_LEVEL	false	YAKU_LOG_LEVEL	
+YAKU_LOG_MAX_SIZE_M	false	YAKU_LOG_MAX_SIZE_MB	
+YAKU_OG_MAX_SIZE_MB	false	YAKU_LOG_MAX_SIZE_MB	
+yaku_log_max_size_mb	false	YAKU_LOG_MAX_SIZE_MB	
+YAKU_LOG_MQX_SIZE_MB	false	YAKU_LOG_MAX_SIZE_MB	
+YAKU_LOG_REDAC	false	YAKU_LOG_REDACT	
+YAKU_OG_REDACT	false	YAKU_LOG_REDACT	
+yaku_log_redact	false	YAKU_LOG_REDACT	
+YAKU_LOQ_REDACT	false	YAKU_LOG_REDACT	
+YAKU_LOG_REJECT	false	YAKU_LOG_REJECTS	
+YAKU_OG_REJECTS	false	YAKU_LOG_REJECTS	
+yaku_log_rejects	false	YAKU_LOG_REJECTS	
+YAKU_LOGQREJECTS	false	YAKU_LOG_REJECTS	
+YAKU_LOG_RETENTION_DAY	false	YAKU_LOG_RETENTION_DAYS	
+YAKU_OG_RETENTION_DAYS	false	YAKU_LOG_RETENTION_DAYS	
+yaku_log_retention_days	false	YAKU_LOG_RETENTION_DAYS	
+YAKU_LOG_REQENTION_DAYS	false	YAKU_LOG_RETENTION_DAYS	
+YAKU_LOSS_NO_RAT	false	YAKU_LOSS_NO_RATE	
+YAKU_OSS_NO_RATE	false	YAKU_LOSS_NO_RATE	
+yaku_loss_no_rate	false	YAKU_LOSS_NO_RATE	
+YAKU_LOSQ_NO_RATE	false	YAKU_LOSS_NO_RATE	
+YAKU_MASK_MIN_DIGIT	false	YAKU_MASK_MIN_DIGITS	
+YAKU_ASK_MIN_DIGITS	false	YAKU_MASK_MIN_DIGITS	
+yaku_mask_min_digits	false	YAKU_MASK_MIN_DIGITS	
+YAKU_MASK_QIN_DIGITS	false	YAKU_MASK_MIN_DIGITS	
+YAKU_MAX_ATTEMPT	false	YAKU_MAX_ATTEMPTS	
+YAKU_AX_ATTEMPTS	false	YAKU_MAX_ATTEMPTS	
+yaku_max_attempts	false	YAKU_MAX_ATTEMPTS	
+YAKU_MAXQATTEMPTS	false	YAKU_MAX_ATTEMPTS	
+YAKU_MAX_BATC	false	YAKU_MAX_BATCH	
+YAKU_AX_BATCH	false	YAKU_MAX_BATCH	
+yaku_max_batch	false	YAKU_MAX_BATCH	
+YAKU_MAQ_BATCH	false	YAKU_MAX_BATCH	
+YAKU_MAX_RECIPIENT	false	YAKU_MAX_RECIPIENTS	
+YAKU_AX_RECIPIENTS	false	YAKU_MAX_RECIPIENTS	
+yaku_max_recipients	false	YAKU_MAX_RECIPIENTS	
+YAKU_MAX_QECIPIENTS	false	YAKU_MAX_RECIPIENTS	
+YAKU_MAX_SEGMENT	false	YAKU_MAX_SEGMENTS	
+YAKU_AX_SEGMENTS	false	YAKU_MAX_SEGMENTS	
+yaku_max_segments	false	YAKU_MAX_SEGMENTS	
+YAKU_MAXQSEGMENTS	false	YAKU_MAX_SEGMENTS	
+YAKU_MIGRATE_SKIP_TRIGGER	false	YAKU_MIGRATE_SKIP_TRIGGERS	
+YAKU_IGRATE_SKIP_TRIGGERS	false	YAKU_MIGRATE_SKIP_TRIGGERS	
+yaku_migrate_skip_triggers	false	YAKU_MIGRATE_SKIP_TRIGGERS	
+YAKU_MIGRATE_QKIP_TRIGGERS	false	YAKU_MIGRATE_SKIP_TRIGGERS	
+YAKU_MONITOR_CPU_PC	false	YAKU_MONITOR_CPU_PCT	
+YAKU_ONITOR_CPU_PCT	false	YAKU_MONITOR_CPU_PCT	
+yaku_monitor_cpu_pct	false	YAKU_MONITOR_CPU_PCT	
+YAKU_MONITQR_CPU_PCT	false	YAKU_MONITOR_CPU_PCT	
+YAKU_MONITOR_EVENT	false	YAKU_MONITOR_EVENTS	
+YAKU_ONITOR_EVENTS	false	YAKU_MONITOR_EVENTS	
+yaku_monitor_events	false	YAKU_MONITOR_EVENTS	
+YAKU_MONIQOR_EVENTS	false	YAKU_MONITOR_EVENTS	
+YAKU_MONITOR_HISTOR	false	YAKU_MONITOR_HISTORY	
+YAKU_ONITOR_HISTORY	false	YAKU_MONITOR_HISTORY	
+yaku_monitor_history	false	YAKU_MONITOR_HISTORY	
+YAKU_MONITQR_HISTORY	false	YAKU_MONITOR_HISTORY	
+YAKU_MONITOR_HOL	false	YAKU_MONITOR_HOLD	
+YAKU_ONITOR_HOLD	false	YAKU_MONITOR_HOLD	
+yaku_monitor_hold	false	YAKU_MONITOR_HOLD	
+YAKU_MONQTOR_HOLD	false	YAKU_MONITOR_HOLD	
+YAKU_MONITOR_LATENCY_M	false	YAKU_MONITOR_LATENCY_MS	
+YAKU_ONITOR_LATENCY_MS	false	YAKU_MONITOR_LATENCY_MS	
+yaku_monitor_latency_ms	false	YAKU_MONITOR_LATENCY_MS	
+YAKU_MONITOQ_LATENCY_MS	false	YAKU_MONITOR_LATENCY_MS	
+YAKU_MONITOR_MEM_PC	false	YAKU_MONITOR_MEM_PCT	
+YAKU_ONITOR_MEM_PCT	false	YAKU_MONITOR_MEM_PCT	
+yaku_monitor_mem_pct	false	YAKU_MONITOR_MEM_PCT	
+YAKU_MONITQR_MEM_PCT	false	YAKU_MONITOR_MEM_PCT	
+YAKU_MONITOR_MYSQL_CONN_PC	false	YAKU_MONITOR_MYSQL_CONN_PCT	
+YAKU_ONITOR_MYSQL_CONN_PCT	false	YAKU_MONITOR_MYSQL_CONN_PCT	
+yaku_monitor_mysql_conn_pct	false	YAKU_MONITOR_MYSQL_CONN_PCT	
+YAKU_MONITOR_QYSQL_CONN_PCT	false	YAKU_MONITOR_MYSQL_CONN_PCT	
+YAKU_MONITOR_QUEUE_AGE_SE	false	YAKU_MONITOR_QUEUE_AGE_SEC	
+YAKU_ONITOR_QUEUE_AGE_SEC	false	YAKU_MONITOR_QUEUE_AGE_SEC	
+yaku_monitor_queue_age_sec	false	YAKU_MONITOR_QUEUE_AGE_SEC	
+YAKU_MONITOR_ZUEUE_AGE_SEC	false	YAKU_MONITOR_QUEUE_AGE_SEC	
+YAKU_MONITOR_QUEUE_DEPT	false	YAKU_MONITOR_QUEUE_DEPTH	
+YAKU_ONITOR_QUEUE_DEPTH	false	YAKU_MONITOR_QUEUE_DEPTH	
+yaku_monitor_queue_depth	false	YAKU_MONITOR_QUEUE_DEPTH	
+YAKU_MONITORQQUEUE_DEPTH	false	YAKU_MONITOR_QUEUE_DEPTH	
+YAKU_MONITOR_REDIS_MEM_PC	false	YAKU_MONITOR_REDIS_MEM_PCT	
+YAKU_ONITOR_REDIS_MEM_PCT	false	YAKU_MONITOR_REDIS_MEM_PCT	
+yaku_monitor_redis_mem_pct	false	YAKU_MONITOR_REDIS_MEM_PCT	
+YAKU_MONITOR_QEDIS_MEM_PCT	false	YAKU_MONITOR_REDIS_MEM_PCT	
+YAKU_MONITOR_REJECT_MIN_TP	false	YAKU_MONITOR_REJECT_MIN_TPS	
+YAKU_ONITOR_REJECT_MIN_TPS	false	YAKU_MONITOR_REJECT_MIN_TPS	
+yaku_monitor_reject_min_tps	false	YAKU_MONITOR_REJECT_MIN_TPS	
+YAKU_MONITOR_QEJECT_MIN_TPS	false	YAKU_MONITOR_REJECT_MIN_TPS	
+YAKU_MONITOR_REJECT_PC	false	YAKU_MONITOR_REJECT_PCT	
+YAKU_ONITOR_REJECT_PCT	false	YAKU_MONITOR_REJECT_PCT	
+yaku_monitor_reject_pct	false	YAKU_MONITOR_REJECT_PCT	
+YAKU_MONITOQ_REJECT_PCT	false	YAKU_MONITOR_REJECT_PCT	
+YAKU_MONITOR_REPLICA_LAG_SE	false	YAKU_MONITOR_REPLICA_LAG_SEC	
+YAKU_ONITOR_REPLICA_LAG_SEC	false	YAKU_MONITOR_REPLICA_LAG_SEC	
+yaku_monitor_replica_lag_sec	false	YAKU_MONITOR_REPLICA_LAG_SEC	
+YAKU_MONITOR_RQPLICA_LAG_SEC	false	YAKU_MONITOR_REPLICA_LAG_SEC	
+YAKU_MONITOR_RETENTION_DAY	false	YAKU_MONITOR_RETENTION_DAYS	
+YAKU_ONITOR_RETENTION_DAYS	false	YAKU_MONITOR_RETENTION_DAYS	
+yaku_monitor_retention_days	false	YAKU_MONITOR_RETENTION_DAYS	
+YAKU_MONITOR_QETENTION_DAYS	false	YAKU_MONITOR_RETENTION_DAYS	
+YAKU_MONITOR_SPIKE_FACTO	false	YAKU_MONITOR_SPIKE_FACTOR	
+YAKU_ONITOR_SPIKE_FACTOR	false	YAKU_MONITOR_SPIKE_FACTOR	
+yaku_monitor_spike_factor	false	YAKU_MONITOR_SPIKE_FACTOR	
+YAKU_MONITORQSPIKE_FACTOR	false	YAKU_MONITOR_SPIKE_FACTOR	
+YAKU_MONITOR_STORE_PING_M	false	YAKU_MONITOR_STORE_PING_MS	
+YAKU_ONITOR_STORE_PING_MS	false	YAKU_MONITOR_STORE_PING_MS	
+yaku_monitor_store_ping_ms	false	YAKU_MONITOR_STORE_PING_MS	
+YAKU_MONITOR_QTORE_PING_MS	false	YAKU_MONITOR_STORE_PING_MS	
+YAKU_MONITOR_SUMMARY_DAY	false	YAKU_MONITOR_SUMMARY_DAYS	
+YAKU_ONITOR_SUMMARY_DAYS	false	YAKU_MONITOR_SUMMARY_DAYS	
+yaku_monitor_summary_days	false	YAKU_MONITOR_SUMMARY_DAYS	
+YAKU_MONITORQSUMMARY_DAYS	false	YAKU_MONITOR_SUMMARY_DAYS	
+YAKU_MONITOR_TRAFFIC_MIN_TP	false	YAKU_MONITOR_TRAFFIC_MIN_TPS	
+YAKU_ONITOR_TRAFFIC_MIN_TPS	false	YAKU_MONITOR_TRAFFIC_MIN_TPS	
+yaku_monitor_traffic_min_tps	false	YAKU_MONITOR_TRAFFIC_MIN_TPS	
+YAKU_MONITOR_TQAFFIC_MIN_TPS	false	YAKU_MONITOR_TRAFFIC_MIN_TPS	
+YAKU_MO_ADD	false	YAKU_MO_ADDR	
+YAKU_O_ADDR	false	YAKU_MO_ADDR	
+yaku_mo_addr	false	YAKU_MO_ADDR	
+YAKU_MQ_ADDR	false	YAKU_MO_ADDR	
+YAKU_ORPHAN_REMATCH_LIMI	false	YAKU_ORPHAN_REMATCH_LIMIT	
+YAKU_RPHAN_REMATCH_LIMIT	false	YAKU_ORPHAN_REMATCH_LIMIT	
+yaku_orphan_rematch_limit	false	YAKU_ORPHAN_REMATCH_LIMIT	
+YAKU_ORPHAN_QEMATCH_LIMIT	false	YAKU_ORPHAN_REMATCH_LIMIT	
+YAKU_ORPHAN_REMATCH_MAX_SE	false	YAKU_ORPHAN_REMATCH_MAX_SEC	
+YAKU_RPHAN_REMATCH_MAX_SEC	false	YAKU_ORPHAN_REMATCH_MAX_SEC	
+yaku_orphan_rematch_max_sec	false	YAKU_ORPHAN_REMATCH_MAX_SEC	
+YAKU_ORPHAN_RQMATCH_MAX_SEC	false	YAKU_ORPHAN_REMATCH_MAX_SEC	
+YAKU_ORPHAN_REMATCH_MINUTE	false	YAKU_ORPHAN_REMATCH_MINUTES	
+YAKU_RPHAN_REMATCH_MINUTES	false	YAKU_ORPHAN_REMATCH_MINUTES	
+yaku_orphan_rematch_minutes	false	YAKU_ORPHAN_REMATCH_MINUTES	
+YAKU_ORPHAN_RQMATCH_MINUTES	false	YAKU_ORPHAN_REMATCH_MINUTES	
+YAKU_ORPHAN_REMATCH_SE	false	YAKU_ORPHAN_REMATCH_SEC	
+YAKU_RPHAN_REMATCH_SEC	false	YAKU_ORPHAN_REMATCH_SEC	
+yaku_orphan_rematch_sec	false	YAKU_ORPHAN_REMATCH_SEC	
+YAKU_ORPHANQREMATCH_SEC	false	YAKU_ORPHAN_REMATCH_SEC	
+YAKU_PCAP_DI	false	YAKU_PCAP_DIR	
+YAKU_CAP_DIR	false	YAKU_PCAP_DIR	
+yaku_pcap_dir	false	YAKU_PCAP_DIR	
+YAKU_PQAP_DIR	false	YAKU_PCAP_DIR	
+YAKU_PCAP_INTERFAC	false	YAKU_PCAP_INTERFACE	
+YAKU_CAP_INTERFACE	false	YAKU_PCAP_INTERFACE	
+yaku_pcap_interface	false	YAKU_PCAP_INTERFACE	
+YAKU_PCAPQINTERFACE	false	YAKU_PCAP_INTERFACE	
+YAKU_PCAP_MAX_M	false	YAKU_PCAP_MAX_MB	
+YAKU_CAP_MAX_MB	false	YAKU_PCAP_MAX_MB	
+yaku_pcap_max_mb	false	YAKU_PCAP_MAX_MB	
+YAKU_PCAQ_MAX_MB	false	YAKU_PCAP_MAX_MB	
+YAKU_PCAP_TCPDUM	false	YAKU_PCAP_TCPDUMP	
+YAKU_CAP_TCPDUMP	false	YAKU_PCAP_TCPDUMP	
+yaku_pcap_tcpdump	false	YAKU_PCAP_TCPDUMP	
+YAKU_PCAQ_TCPDUMP	false	YAKU_PCAP_TCPDUMP	
+YAKU_PUSH_BASE_DELAY_SE	false	YAKU_PUSH_BASE_DELAY_SEC	
+YAKU_USH_BASE_DELAY_SEC	false	YAKU_PUSH_BASE_DELAY_SEC	
+yaku_push_base_delay_sec	false	YAKU_PUSH_BASE_DELAY_SEC	
+YAKU_PUSH_BAQE_DELAY_SEC	false	YAKU_PUSH_BASE_DELAY_SEC	
+YAKU_PUSH_GIVE_UP_AFTER_SE	false	YAKU_PUSH_GIVE_UP_AFTER_SEC	
+YAKU_USH_GIVE_UP_AFTER_SEC	false	YAKU_PUSH_GIVE_UP_AFTER_SEC	
+yaku_push_give_up_after_sec	false	YAKU_PUSH_GIVE_UP_AFTER_SEC	
+YAKU_PUSH_GIVQ_UP_AFTER_SEC	false	YAKU_PUSH_GIVE_UP_AFTER_SEC	
+YAKU_PUSH_MAX_ATTEMPT	false	YAKU_PUSH_MAX_ATTEMPTS	
+YAKU_USH_MAX_ATTEMPTS	false	YAKU_PUSH_MAX_ATTEMPTS	
+yaku_push_max_attempts	false	YAKU_PUSH_MAX_ATTEMPTS	
+YAKU_PUSH_MQX_ATTEMPTS	false	YAKU_PUSH_MAX_ATTEMPTS	
+YAKU_PUSH_MAX_DELAY_SE	false	YAKU_PUSH_MAX_DELAY_SEC	
+YAKU_USH_MAX_DELAY_SEC	false	YAKU_PUSH_MAX_DELAY_SEC	
+yaku_push_max_delay_sec	false	YAKU_PUSH_MAX_DELAY_SEC	
+YAKU_PUSH_MQX_DELAY_SEC	false	YAKU_PUSH_MAX_DELAY_SEC	
+YAKU_PUSH_MULTIPLIE	false	YAKU_PUSH_MULTIPLIER	
+YAKU_USH_MULTIPLIER	false	YAKU_PUSH_MULTIPLIER	
+yaku_push_multiplier	false	YAKU_PUSH_MULTIPLIER	
+YAKU_PUSH_QULTIPLIER	false	YAKU_PUSH_MULTIPLIER	
+YAKU_QUALITY_MIN_SAMPL	false	YAKU_QUALITY_MIN_SAMPLE	
+YAKU_UALITY_MIN_SAMPLE	false	YAKU_QUALITY_MIN_SAMPLE	
+yaku_quality_min_sample	false	YAKU_QUALITY_MIN_SAMPLE	
+YAKU_QUALITQ_MIN_SAMPLE	false	YAKU_QUALITY_MIN_SAMPLE	
+YAKU_QUALITY_WINDOW_MI	false	YAKU_QUALITY_WINDOW_MIN	
+YAKU_UALITY_WINDOW_MIN	false	YAKU_QUALITY_WINDOW_MIN	
+yaku_quality_window_min	false	YAKU_QUALITY_WINDOW_MIN	
+YAKU_QUALITQ_WINDOW_MIN	false	YAKU_QUALITY_WINDOW_MIN	
+YAKU_QUEUE_BACKEN	false	YAKU_QUEUE_BACKEND	
+YAKU_UEUE_BACKEND	false	YAKU_QUEUE_BACKEND	
+yaku_queue_backend	false	YAKU_QUEUE_BACKEND	
+YAKU_QUEUQ_BACKEND	false	YAKU_QUEUE_BACKEND	
+YAKU_QUEUE_BILLING_EVERY_M	false	YAKU_QUEUE_BILLING_EVERY_MS	
+YAKU_UEUE_BILLING_EVERY_MS	false	YAKU_QUEUE_BILLING_EVERY_MS	
+yaku_queue_billing_every_ms	false	YAKU_QUEUE_BILLING_EVERY_MS	
+YAKU_QUEUE_BIQLING_EVERY_MS	false	YAKU_QUEUE_BILLING_EVERY_MS	
+YAKU_QUEUE_BILLING_PER_INTERVA	false	YAKU_QUEUE_BILLING_PER_INTERVAL	
+YAKU_UEUE_BILLING_PER_INTERVAL	false	YAKU_QUEUE_BILLING_PER_INTERVAL	
+yaku_queue_billing_per_interval	false	YAKU_QUEUE_BILLING_PER_INTERVAL	
+YAKU_QUEUE_BILLQNG_PER_INTERVAL	false	YAKU_QUEUE_BILLING_PER_INTERVAL	
+YAKU_QUEUE_DLR_EVERY_M	false	YAKU_QUEUE_DLR_EVERY_MS	
+YAKU_UEUE_DLR_EVERY_MS	false	YAKU_QUEUE_DLR_EVERY_MS	
+yaku_queue_dlr_every_ms	false	YAKU_QUEUE_DLR_EVERY_MS	
+YAKU_QUEUE_QLR_EVERY_MS	false	YAKU_QUEUE_DLR_EVERY_MS	
+YAKU_QUEUE_DLR_PER_INTERVA	false	YAKU_QUEUE_DLR_PER_INTERVAL	
+YAKU_UEUE_DLR_PER_INTERVAL	false	YAKU_QUEUE_DLR_PER_INTERVAL	
+yaku_queue_dlr_per_interval	false	YAKU_QUEUE_DLR_PER_INTERVAL	
+YAKU_QUEUE_DLQ_PER_INTERVAL	false	YAKU_QUEUE_DLR_PER_INTERVAL	
+YAKU_QUEUE_DS	false	YAKU_QUEUE_DSN	
+YAKU_UEUE_DSN	false	YAKU_QUEUE_DSN	
+yaku_queue_dsn	false	YAKU_QUEUE_DSN	
+YAKU_QUQUE_DSN	false	YAKU_QUEUE_DSN	
+YAKU_QUEUE_EXPIRY_EVERY_M	false	YAKU_QUEUE_EXPIRY_EVERY_MS	
+YAKU_UEUE_EXPIRY_EVERY_MS	false	YAKU_QUEUE_EXPIRY_EVERY_MS	
+yaku_queue_expiry_every_ms	false	YAKU_QUEUE_EXPIRY_EVERY_MS	
+YAKU_QUEUE_EXQIRY_EVERY_MS	false	YAKU_QUEUE_EXPIRY_EVERY_MS	
+YAKU_QUEUE_EXPIRY_PER_INTERVA	false	YAKU_QUEUE_EXPIRY_PER_INTERVAL	
+YAKU_UEUE_EXPIRY_PER_INTERVAL	false	YAKU_QUEUE_EXPIRY_PER_INTERVAL	
+yaku_queue_expiry_per_interval	false	YAKU_QUEUE_EXPIRY_PER_INTERVAL	
+YAKU_QUEUE_EXPIQY_PER_INTERVAL	false	YAKU_QUEUE_EXPIRY_PER_INTERVAL	
+YAKU_QUEUE_HANDOFF_EVERY_M	false	YAKU_QUEUE_HANDOFF_EVERY_MS	
+YAKU_UEUE_HANDOFF_EVERY_MS	false	YAKU_QUEUE_HANDOFF_EVERY_MS	
+yaku_queue_handoff_every_ms	false	YAKU_QUEUE_HANDOFF_EVERY_MS	
+YAKU_QUEUE_HAQDOFF_EVERY_MS	false	YAKU_QUEUE_HANDOFF_EVERY_MS	
+YAKU_QUEUE_HANDOFF_PER_INTERVA	false	YAKU_QUEUE_HANDOFF_PER_INTERVAL	
+YAKU_UEUE_HANDOFF_PER_INTERVAL	false	YAKU_QUEUE_HANDOFF_PER_INTERVAL	
+yaku_queue_handoff_per_interval	false	YAKU_QUEUE_HANDOFF_PER_INTERVAL	
+YAKU_QUEUE_HANDQFF_PER_INTERVAL	false	YAKU_QUEUE_HANDOFF_PER_INTERVAL	
+YAKU_QUEUE_MO_EVERY_M	false	YAKU_QUEUE_MO_EVERY_MS	
+YAKU_UEUE_MO_EVERY_MS	false	YAKU_QUEUE_MO_EVERY_MS	
+yaku_queue_mo_every_ms	false	YAKU_QUEUE_MO_EVERY_MS	
+YAKU_QUEUE_QO_EVERY_MS	false	YAKU_QUEUE_MO_EVERY_MS	
+YAKU_QUEUE_MO_PER_INTERVA	false	YAKU_QUEUE_MO_PER_INTERVAL	
+YAKU_UEUE_MO_PER_INTERVAL	false	YAKU_QUEUE_MO_PER_INTERVAL	
+yaku_queue_mo_per_interval	false	YAKU_QUEUE_MO_PER_INTERVAL	
+YAKU_QUEUE_MOQPER_INTERVAL	false	YAKU_QUEUE_MO_PER_INTERVAL	
+YAKU_QUEUE_MT_EVERY_M	false	YAKU_QUEUE_MT_EVERY_MS	
+YAKU_UEUE_MT_EVERY_MS	false	YAKU_QUEUE_MT_EVERY_MS	
+yaku_queue_mt_every_ms	false	YAKU_QUEUE_MT_EVERY_MS	
+YAKU_QUEUE_QT_EVERY_MS	false	YAKU_QUEUE_MT_EVERY_MS	
+YAKU_QUEUE_MT_PER_INTERVA	false	YAKU_QUEUE_MT_PER_INTERVAL	
+YAKU_UEUE_MT_PER_INTERVAL	false	YAKU_QUEUE_MT_PER_INTERVAL	
+yaku_queue_mt_per_interval	false	YAKU_QUEUE_MT_PER_INTERVAL	
+YAKU_QUEUE_MTQPER_INTERVAL	false	YAKU_QUEUE_MT_PER_INTERVAL	
+YAKU_QUEUE_READ_DS	false	YAKU_QUEUE_READ_DSN	
+YAKU_UEUE_READ_DSN	false	YAKU_QUEUE_READ_DSN	
+yaku_queue_read_dsn	false	YAKU_QUEUE_READ_DSN	
+YAKU_QUEUQ_READ_DSN	false	YAKU_QUEUE_READ_DSN	
+YAKU_QUEUE_RECEIPT_WRITES_EVERY_M	false	YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	
+YAKU_UEUE_RECEIPT_WRITES_EVERY_MS	false	YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	
+yaku_queue_receipt_writes_every_ms	false	YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	
+YAKU_QUEUE_RECEIPQ_WRITES_EVERY_MS	false	YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	
+YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVA	false	YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	
+YAKU_UEUE_RECEIPT_WRITES_PER_INTERVAL	false	YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	
+yaku_queue_receipt_writes_per_interval	false	YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	
+YAKU_QUEUE_RECEIPT_QRITES_PER_INTERVAL	false	YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	
+YAKU_QUEUE_RECORDS_EVERY_M	false	YAKU_QUEUE_RECORDS_EVERY_MS	
+YAKU_UEUE_RECORDS_EVERY_MS	false	YAKU_QUEUE_RECORDS_EVERY_MS	
+yaku_queue_records_every_ms	false	YAKU_QUEUE_RECORDS_EVERY_MS	
+YAKU_QUEUE_REQORDS_EVERY_MS	false	YAKU_QUEUE_RECORDS_EVERY_MS	
+YAKU_QUEUE_RECORDS_PER_INTERVA	false	YAKU_QUEUE_RECORDS_PER_INTERVAL	
+YAKU_UEUE_RECORDS_PER_INTERVAL	false	YAKU_QUEUE_RECORDS_PER_INTERVAL	
+yaku_queue_records_per_interval	false	YAKU_QUEUE_RECORDS_PER_INTERVAL	
+YAKU_QUEUE_RECOQDS_PER_INTERVAL	false	YAKU_QUEUE_RECORDS_PER_INTERVAL	
+YAKU_QUEUE_REDIS_ADD	false	YAKU_QUEUE_REDIS_ADDR	
+YAKU_UEUE_REDIS_ADDR	false	YAKU_QUEUE_REDIS_ADDR	
+yaku_queue_redis_addr	false	YAKU_QUEUE_REDIS_ADDR	
+YAKU_QUEUEQREDIS_ADDR	false	YAKU_QUEUE_REDIS_ADDR	
+YAKU_QUEUE_REDIS_D	false	YAKU_QUEUE_REDIS_DB	
+YAKU_UEUE_REDIS_DB	false	YAKU_QUEUE_REDIS_DB	
+yaku_queue_redis_db	false	YAKU_QUEUE_REDIS_DB	
+YAKU_QUEUQ_REDIS_DB	false	YAKU_QUEUE_REDIS_DB	
+YAKU_QUEUE_REDIS_FAILOVER_ADD	false	YAKU_QUEUE_REDIS_FAILOVER_ADDR	
+YAKU_UEUE_REDIS_FAILOVER_ADDR	false	YAKU_QUEUE_REDIS_FAILOVER_ADDR	
+yaku_queue_redis_failover_addr	false	YAKU_QUEUE_REDIS_FAILOVER_ADDR	
+YAKU_QUEUE_REDIQ_FAILOVER_ADDR	false	YAKU_QUEUE_REDIS_FAILOVER_ADDR	
+YAKU_QUEUE_REDIS_MASTER_NAM	false	YAKU_QUEUE_REDIS_MASTER_NAME	
+YAKU_UEUE_REDIS_MASTER_NAME	false	YAKU_QUEUE_REDIS_MASTER_NAME	
+yaku_queue_redis_master_name	false	YAKU_QUEUE_REDIS_MASTER_NAME	
+YAKU_QUEUE_REDQS_MASTER_NAME	false	YAKU_QUEUE_REDIS_MASTER_NAME	
+YAKU_QUEUE_REDIS_PASSWOR	false	YAKU_QUEUE_REDIS_PASSWORD	
+YAKU_UEUE_REDIS_PASSWORD	false	YAKU_QUEUE_REDIS_PASSWORD	
+yaku_queue_redis_password	false	YAKU_QUEUE_REDIS_PASSWORD	
+YAKU_QUEUE_RQDIS_PASSWORD	false	YAKU_QUEUE_REDIS_PASSWORD	
+YAKU_QUEUE_REDIS_SENTINEL_ADDR	false	YAKU_QUEUE_REDIS_SENTINEL_ADDRS	
+YAKU_UEUE_REDIS_SENTINEL_ADDRS	false	YAKU_QUEUE_REDIS_SENTINEL_ADDRS	
+yaku_queue_redis_sentinel_addrs	false	YAKU_QUEUE_REDIS_SENTINEL_ADDRS	
+YAKU_QUEUE_REDIQ_SENTINEL_ADDRS	false	YAKU_QUEUE_REDIS_SENTINEL_ADDRS	
+YAKU_QUEUE_REDIS_SENTINEL_PASSWOR	false	YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	
+YAKU_UEUE_REDIS_SENTINEL_PASSWORD	false	YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	
+yaku_queue_redis_sentinel_password	false	YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	
+YAKU_QUEUE_REDIS_QENTINEL_PASSWORD	false	YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	
+YAKU_QUEUE_REROUTE_EVERY_M	false	YAKU_QUEUE_REROUTE_EVERY_MS	
+YAKU_UEUE_REROUTE_EVERY_MS	false	YAKU_QUEUE_REROUTE_EVERY_MS	
+yaku_queue_reroute_every_ms	false	YAKU_QUEUE_REROUTE_EVERY_MS	
+YAKU_QUEUE_REQOUTE_EVERY_MS	false	YAKU_QUEUE_REROUTE_EVERY_MS	
+YAKU_QUEUE_REROUTE_PER_INTERVA	false	YAKU_QUEUE_REROUTE_PER_INTERVAL	
+YAKU_UEUE_REROUTE_PER_INTERVAL	false	YAKU_QUEUE_REROUTE_PER_INTERVAL	
+yaku_queue_reroute_per_interval	false	YAKU_QUEUE_REROUTE_PER_INTERVAL	
+YAKU_QUEUE_REROQTE_PER_INTERVAL	false	YAKU_QUEUE_REROUTE_PER_INTERVAL	
+YAKU_QUEUE_RETRY_EVERY_M	false	YAKU_QUEUE_RETRY_EVERY_MS	
+YAKU_UEUE_RETRY_EVERY_MS	false	YAKU_QUEUE_RETRY_EVERY_MS	
+yaku_queue_retry_every_ms	false	YAKU_QUEUE_RETRY_EVERY_MS	
+YAKU_QUEUE_RQTRY_EVERY_MS	false	YAKU_QUEUE_RETRY_EVERY_MS	
+YAKU_QUEUE_RETRY_PER_INTERVA	false	YAKU_QUEUE_RETRY_PER_INTERVAL	
+YAKU_UEUE_RETRY_PER_INTERVAL	false	YAKU_QUEUE_RETRY_PER_INTERVAL	
+yaku_queue_retry_per_interval	false	YAKU_QUEUE_RETRY_PER_INTERVAL	
+YAKU_QUEUE_RETQY_PER_INTERVAL	false	YAKU_QUEUE_RETRY_PER_INTERVAL	
+YAKU_RATE_HISTORY_HOUR	false	YAKU_RATE_HISTORY_HOURS	
+YAKU_ATE_HISTORY_HOURS	false	YAKU_RATE_HISTORY_HOURS	
+yaku_rate_history_hours	false	YAKU_RATE_HISTORY_HOURS	
+YAKU_RATE_HQSTORY_HOURS	false	YAKU_RATE_HISTORY_HOURS	
+YAKU_RECEIPTS_IN_REDI	false	YAKU_RECEIPTS_IN_REDIS	
+YAKU_ECEIPTS_IN_REDIS	false	YAKU_RECEIPTS_IN_REDIS	
+yaku_receipts_in_redis	false	YAKU_RECEIPTS_IN_REDIS	
+YAKU_RECEIPQS_IN_REDIS	false	YAKU_RECEIPTS_IN_REDIS	
+YAKU_RECORDS_VI	false	YAKU_RECORDS_VIA	
+YAKU_ECORDS_VIA	false	YAKU_RECORDS_VIA	
+yaku_records_via	false	YAKU_RECORDS_VIA	
+YAKU_RECQRDS_VIA	false	YAKU_RECORDS_VIA	
+YAKU_RECORD_LANE	false	YAKU_RECORD_LANES	
+YAKU_ECORD_LANES	false	YAKU_RECORD_LANES	
+yaku_record_lanes	false	YAKU_RECORD_LANES	
+YAKU_RECQRD_LANES	false	YAKU_RECORD_LANES	
+YAKU_RECORD_QUEUE_MA	false	YAKU_RECORD_QUEUE_MAX	
+YAKU_ECORD_QUEUE_MAX	false	YAKU_RECORD_QUEUE_MAX	
+yaku_record_queue_max	false	YAKU_RECORD_QUEUE_MAX	
+YAKU_RECORQ_QUEUE_MAX	false	YAKU_RECORD_QUEUE_MAX	
+YAKU_REDIS_ADD	false	YAKU_REDIS_ADDR	
+YAKU_EDIS_ADDR	false	YAKU_REDIS_ADDR	
+yaku_redis_addr	false	YAKU_REDIS_ADDR	
+YAKU_REQIS_ADDR	false	YAKU_REDIS_ADDR	
+YAKU_REDIS_BALANCE_TIMEOUT_M	false	YAKU_REDIS_BALANCE_TIMEOUT_MS	
+YAKU_EDIS_BALANCE_TIMEOUT_MS	false	YAKU_REDIS_BALANCE_TIMEOUT_MS	
+yaku_redis_balance_timeout_ms	false	YAKU_REDIS_BALANCE_TIMEOUT_MS	
+YAKU_REDIS_BALQNCE_TIMEOUT_MS	false	YAKU_REDIS_BALANCE_TIMEOUT_MS	
+YAKU_REDIS_D	false	YAKU_REDIS_DB	
+YAKU_EDIS_DB	false	YAKU_REDIS_DB	
+yaku_redis_db	false	YAKU_REDIS_DB	
+YAKU_RQDIS_DB	false	YAKU_REDIS_DB	
+YAKU_REDIS_FAILOVER_ADD	false	YAKU_REDIS_FAILOVER_ADDR	
+YAKU_EDIS_FAILOVER_ADDR	false	YAKU_REDIS_FAILOVER_ADDR	
+yaku_redis_failover_addr	false	YAKU_REDIS_FAILOVER_ADDR	
+YAKU_REDIS_FQILOVER_ADDR	false	YAKU_REDIS_FAILOVER_ADDR	
+YAKU_REDIS_MASTER_NAM	false	YAKU_REDIS_MASTER_NAME	
+YAKU_EDIS_MASTER_NAME	false	YAKU_REDIS_MASTER_NAME	
+yaku_redis_master_name	false	YAKU_REDIS_MASTER_NAME	
+YAKU_REDIS_QASTER_NAME	false	YAKU_REDIS_MASTER_NAME	
+YAKU_REDIS_PASSWOR	false	YAKU_REDIS_PASSWORD	
+YAKU_EDIS_PASSWORD	false	YAKU_REDIS_PASSWORD	
+yaku_redis_password	false	YAKU_REDIS_PASSWORD	
+YAKU_REDIQ_PASSWORD	false	YAKU_REDIS_PASSWORD	
+YAKU_REDIS_POOL_SIZ	false	YAKU_REDIS_POOL_SIZE	
+YAKU_EDIS_POOL_SIZE	false	YAKU_REDIS_POOL_SIZE	
+yaku_redis_pool_size	false	YAKU_REDIS_POOL_SIZE	
+YAKU_REDISQPOOL_SIZE	false	YAKU_REDIS_POOL_SIZE	
+YAKU_REDIS_POOL_TIMEOUT_M	false	YAKU_REDIS_POOL_TIMEOUT_MS	
+YAKU_EDIS_POOL_TIMEOUT_MS	false	YAKU_REDIS_POOL_TIMEOUT_MS	
+yaku_redis_pool_timeout_ms	false	YAKU_REDIS_POOL_TIMEOUT_MS	
+YAKU_REDIS_POQL_TIMEOUT_MS	false	YAKU_REDIS_POOL_TIMEOUT_MS	
+YAKU_REDIS_SENTINEL_ADDR	false	YAKU_REDIS_SENTINEL_ADDRS	
+YAKU_EDIS_SENTINEL_ADDRS	false	YAKU_REDIS_SENTINEL_ADDRS	
+yaku_redis_sentinel_addrs	false	YAKU_REDIS_SENTINEL_ADDRS	
+YAKU_REDIS_SQNTINEL_ADDRS	false	YAKU_REDIS_SENTINEL_ADDRS	
+YAKU_REDIS_SENTINEL_PASSWOR	false	YAKU_REDIS_SENTINEL_PASSWORD	
+YAKU_EDIS_SENTINEL_PASSWORD	false	YAKU_REDIS_SENTINEL_PASSWORD	
+yaku_redis_sentinel_password	false	YAKU_REDIS_SENTINEL_PASSWORD	
+YAKU_REDIS_SENQINEL_PASSWORD	false	YAKU_REDIS_SENTINEL_PASSWORD	
+YAKU_REDIS_SYNC_SE	false	YAKU_REDIS_SYNC_SEC	
+YAKU_EDIS_SYNC_SEC	false	YAKU_REDIS_SYNC_SEC	
+yaku_redis_sync_sec	false	YAKU_REDIS_SYNC_SEC	
+YAKU_REDIQ_SYNC_SEC	false	YAKU_REDIS_SYNC_SEC	
+YAKU_REDIS_WATCH_SE	false	YAKU_REDIS_WATCH_SEC	
+YAKU_EDIS_WATCH_SEC	false	YAKU_REDIS_WATCH_SEC	
+yaku_redis_watch_sec	false	YAKU_REDIS_WATCH_SEC	
+YAKU_REDISQWATCH_SEC	false	YAKU_REDIS_WATCH_SEC	
+YAKU_REROUT	false	YAKU_REROUTE	
+YAKU_EROUTE	false	YAKU_REROUTE	
+yaku_reroute	false	YAKU_REROUTE	
+YAKU_RQROUTE	false	YAKU_REROUTE	
+YAKU_RETENTION_INTERVAL_SE	false	YAKU_RETENTION_INTERVAL_SEC	
+YAKU_ETENTION_INTERVAL_SEC	false	YAKU_RETENTION_INTERVAL_SEC	
+yaku_retention_interval_sec	false	YAKU_RETENTION_INTERVAL_SEC	
+YAKU_RETENTIOQ_INTERVAL_SEC	false	YAKU_RETENTION_INTERVAL_SEC	
+YAKU_RETENTION_SKIP_CHECKSU	false	YAKU_RETENTION_SKIP_CHECKSUM	
+YAKU_ETENTION_SKIP_CHECKSUM	false	YAKU_RETENTION_SKIP_CHECKSUM	
+yaku_retention_skip_checksum	false	YAKU_RETENTION_SKIP_CHECKSUM	
+YAKU_RETENTIONQSKIP_CHECKSUM	false	YAKU_RETENTION_SKIP_CHECKSUM	
+YAKU_ROLE	false	YAKU_ROLES	
+YAKU_OLES	false	YAKU_ROLES	
+yaku_roles	false	YAKU_ROLES	
+YAKU_QOLES	false	YAKU_ROLES	
+YAKU_SENDER_MAX_ALPH	false	YAKU_SENDER_MAX_ALPHA	
+YAKU_ENDER_MAX_ALPHA	false	YAKU_SENDER_MAX_ALPHA	
+yaku_sender_max_alpha	false	YAKU_SENDER_MAX_ALPHA	
+YAKU_SENDEQ_MAX_ALPHA	false	YAKU_SENDER_MAX_ALPHA	
+YAKU_SENDER_MAX_NUMERI	false	YAKU_SENDER_MAX_NUMERIC	
+YAKU_ENDER_MAX_NUMERIC	false	YAKU_SENDER_MAX_NUMERIC	
+yaku_sender_max_numeric	false	YAKU_SENDER_MAX_NUMERIC	
+YAKU_SENDERQMAX_NUMERIC	false	YAKU_SENDER_MAX_NUMERIC	
+YAKU_SMPP_ADD	false	YAKU_SMPP_ADDR	
+YAKU_MPP_ADDR	false	YAKU_SMPP_ADDR	
+yaku_smpp_addr	false	YAKU_SMPP_ADDR	
+YAKU_SMQP_ADDR	false	YAKU_SMPP_ADDR	
+YAKU_SMPP_DELIVER_BATC	false	YAKU_SMPP_DELIVER_BATCH	
+YAKU_MPP_DELIVER_BATCH	false	YAKU_SMPP_DELIVER_BATCH	
+yaku_smpp_deliver_batch	false	YAKU_SMPP_DELIVER_BATCH	
+YAKU_SMPP_DQLIVER_BATCH	false	YAKU_SMPP_DELIVER_BATCH	
+YAKU_SMPP_DELIVER_M	false	YAKU_SMPP_DELIVER_MS	
+YAKU_MPP_DELIVER_MS	false	YAKU_SMPP_DELIVER_MS	
+yaku_smpp_deliver_ms	false	YAKU_SMPP_DELIVER_MS	
+YAKU_SMPP_QELIVER_MS	false	YAKU_SMPP_DELIVER_MS	
+YAKU_SMPP_DELIVER_WINDO	false	YAKU_SMPP_DELIVER_WINDOW	
+YAKU_MPP_DELIVER_WINDOW	false	YAKU_SMPP_DELIVER_WINDOW	
+yaku_smpp_deliver_window	false	YAKU_SMPP_DELIVER_WINDOW	
+YAKU_SMPP_DEQIVER_WINDOW	false	YAKU_SMPP_DELIVER_WINDOW	
+YAKU_SMPP_DRAIN_SE	false	YAKU_SMPP_DRAIN_SEC	
+YAKU_MPP_DRAIN_SEC	false	YAKU_SMPP_DRAIN_SEC	
+yaku_smpp_drain_sec	false	YAKU_SMPP_DRAIN_SEC	
+YAKU_SMPPQDRAIN_SEC	false	YAKU_SMPP_DRAIN_SEC	
+YAKU_SMPP_MAX_CONN	false	YAKU_SMPP_MAX_CONNS	
+YAKU_MPP_MAX_CONNS	false	YAKU_SMPP_MAX_CONNS	
+yaku_smpp_max_conns	false	YAKU_SMPP_MAX_CONNS	
+YAKU_SMPPQMAX_CONNS	false	YAKU_SMPP_MAX_CONNS	
+YAKU_SMPP_SERVER_MAX_IN_FLIGH	false	YAKU_SMPP_SERVER_MAX_IN_FLIGHT	
+YAKU_MPP_SERVER_MAX_IN_FLIGHT	false	YAKU_SMPP_SERVER_MAX_IN_FLIGHT	
+yaku_smpp_server_max_in_flight	false	YAKU_SMPP_SERVER_MAX_IN_FLIGHT	
+YAKU_SMPP_SERVEQ_MAX_IN_FLIGHT	false	YAKU_SMPP_SERVER_MAX_IN_FLIGHT	
+YAKU_SMPP_SERVER_OVER_LIMI	false	YAKU_SMPP_SERVER_OVER_LIMIT	
+YAKU_MPP_SERVER_OVER_LIMIT	false	YAKU_SMPP_SERVER_OVER_LIMIT	
+yaku_smpp_server_over_limit	false	YAKU_SMPP_SERVER_OVER_LIMIT	
+YAKU_SMPP_SERQER_OVER_LIMIT	false	YAKU_SMPP_SERVER_OVER_LIMIT	
+YAKU_SMPP_THROTTLE_PAUSE_SE	false	YAKU_SMPP_THROTTLE_PAUSE_SEC	
+YAKU_MPP_THROTTLE_PAUSE_SEC	false	YAKU_SMPP_THROTTLE_PAUSE_SEC	
+yaku_smpp_throttle_pause_sec	false	YAKU_SMPP_THROTTLE_PAUSE_SEC	
+YAKU_SMPP_THROQTLE_PAUSE_SEC	false	YAKU_SMPP_THROTTLE_PAUSE_SEC	
+YAKU_SMPP_TL	false	YAKU_SMPP_TLS	
+YAKU_MPP_TLS	false	YAKU_SMPP_TLS	
+yaku_smpp_tls	false	YAKU_SMPP_TLS	
+YAKU_SQPP_TLS	false	YAKU_SMPP_TLS	
+YAKU_SMPP_TLS_ADD	false	YAKU_SMPP_TLS_ADDR	
+YAKU_MPP_TLS_ADDR	false	YAKU_SMPP_TLS_ADDR	
+yaku_smpp_tls_addr	false	YAKU_SMPP_TLS_ADDR	
+YAKU_SMPPQTLS_ADDR	false	YAKU_SMPP_TLS_ADDR	
+YAKU_SMPP_TLS_CER	false	YAKU_SMPP_TLS_CERT	
+YAKU_MPP_TLS_CERT	false	YAKU_SMPP_TLS_CERT	
+yaku_smpp_tls_cert	false	YAKU_SMPP_TLS_CERT	
+YAKU_SMPPQTLS_CERT	false	YAKU_SMPP_TLS_CERT	
+YAKU_SMPP_TLS_CLIENT_C	false	YAKU_SMPP_TLS_CLIENT_CA	
+YAKU_MPP_TLS_CLIENT_CA	false	YAKU_SMPP_TLS_CLIENT_CA	
+yaku_smpp_tls_client_ca	false	YAKU_SMPP_TLS_CLIENT_CA	
+YAKU_SMPP_TQS_CLIENT_CA	false	YAKU_SMPP_TLS_CLIENT_CA	
+YAKU_SMPP_TLS_KE	false	YAKU_SMPP_TLS_KEY	
+YAKU_MPP_TLS_KEY	false	YAKU_SMPP_TLS_KEY	
+yaku_smpp_tls_key	false	YAKU_SMPP_TLS_KEY	
+YAKU_SMPQ_TLS_KEY	false	YAKU_SMPP_TLS_KEY	
+YAKU_SMPP_VENDOR_INBOUND_WORKER	false	YAKU_SMPP_VENDOR_INBOUND_WORKERS	
+YAKU_MPP_VENDOR_INBOUND_WORKERS	false	YAKU_SMPP_VENDOR_INBOUND_WORKERS	
+yaku_smpp_vendor_inbound_workers	false	YAKU_SMPP_VENDOR_INBOUND_WORKERS	
+YAKU_SMPP_VENDORQINBOUND_WORKERS	false	YAKU_SMPP_VENDOR_INBOUND_WORKERS	
+YAKU_SMPP_WINDO	false	YAKU_SMPP_WINDOW	
+YAKU_MPP_WINDOW	false	YAKU_SMPP_WINDOW	
+yaku_smpp_window	false	YAKU_SMPP_WINDOW	
+YAKU_SMPQ_WINDOW	false	YAKU_SMPP_WINDOW	
+YAKU_SMPP_WINDOW_GRACE_M	false	YAKU_SMPP_WINDOW_GRACE_MS	
+YAKU_MPP_WINDOW_GRACE_MS	false	YAKU_SMPP_WINDOW_GRACE_MS	
+yaku_smpp_window_grace_ms	false	YAKU_SMPP_WINDOW_GRACE_MS	
+YAKU_SMPP_WIQDOW_GRACE_MS	false	YAKU_SMPP_WINDOW_GRACE_MS	
+YAKU_SPRAY_DISTINCT_THRESHOL	false	YAKU_SPRAY_DISTINCT_THRESHOLD	
+YAKU_PRAY_DISTINCT_THRESHOLD	false	YAKU_SPRAY_DISTINCT_THRESHOLD	
+yaku_spray_distinct_threshold	false	YAKU_SPRAY_DISTINCT_THRESHOLD	
+YAKU_SPRAY_DISQINCT_THRESHOLD	false	YAKU_SPRAY_DISTINCT_THRESHOLD	
+YAKU_STATUS_KE	false	YAKU_STATUS_KEY	
+YAKU_TATUS_KEY	false	YAKU_STATUS_KEY	
+yaku_status_key	false	YAKU_STATUS_KEY	
+YAKU_STQTUS_KEY	false	YAKU_STATUS_KEY	
+YAKU_STATUS_PUSH_SE	false	YAKU_STATUS_PUSH_SEC	
+YAKU_TATUS_PUSH_SEC	false	YAKU_STATUS_PUSH_SEC	
+yaku_status_push_sec	false	YAKU_STATUS_PUSH_SEC	
+YAKU_STATUQ_PUSH_SEC	false	YAKU_STATUS_PUSH_SEC	
+YAKU_SUPERVISE	false	YAKU_SUPERVISED	
+YAKU_UPERVISED	false	YAKU_SUPERVISED	
+yaku_supervised	false	YAKU_SUPERVISED	
+YAKU_SUQERVISED	false	YAKU_SUPERVISED	
+YAKU_TOKEN_PEPPE	false	YAKU_TOKEN_PEPPER	
+YAKU_OKEN_PEPPER	false	YAKU_TOKEN_PEPPER	
+yaku_token_pepper	false	YAKU_TOKEN_PEPPER	
+YAKU_TOKQN_PEPPER	false	YAKU_TOKEN_PEPPER	
+YAKU_TRUSTED_PROXIE	false	YAKU_TRUSTED_PROXIES	
+YAKU_RUSTED_PROXIES	false	YAKU_TRUSTED_PROXIES	
+yaku_trusted_proxies	false	YAKU_TRUSTED_PROXIES	
+YAKU_TRUSTQD_PROXIES	false	YAKU_TRUSTED_PROXIES	
+YAKU_VENDOR_CALL_LO	false	YAKU_VENDOR_CALL_LOG	
+YAKU_ENDOR_CALL_LOG	false	YAKU_VENDOR_CALL_LOG	
+yaku_vendor_call_log	false	YAKU_VENDOR_CALL_LOG	
+YAKU_VENDOQ_CALL_LOG	false	YAKU_VENDOR_CALL_LOG	
+YAKU_VENDOR_RELOAD_SE	false	YAKU_VENDOR_RELOAD_SEC	
+YAKU_ENDOR_RELOAD_SEC	false	YAKU_VENDOR_RELOAD_SEC	
+yaku_vendor_reload_sec	false	YAKU_VENDOR_RELOAD_SEC	
+YAKU_VENDORQRELOAD_SEC	false	YAKU_VENDOR_RELOAD_SEC	
+YAKU_VERSIO	false	YAKU_VERSION	
+YAKU_ERSION	false	YAKU_VERSION	
+yaku_version	false	YAKU_VERSION	
+YAKU_VQRSION	false	YAKU_VERSION	
+YAKU_WEBHOOK_CALL_LO	false	YAKU_WEBHOOK_CALL_LOG	
+YAKU_EBHOOK_CALL_LOG	false	YAKU_WEBHOOK_CALL_LOG	
+yaku_webhook_call_log	false	YAKU_WEBHOOK_CALL_LOG	
+YAKU_WEBHOQK_CALL_LOG	false	YAKU_WEBHOOK_CALL_LOG	
+YAKU_WEBHOOK_RELOAD_SE	false	YAKU_WEBHOOK_RELOAD_SEC	
+YAKU_EBHOOK_RELOAD_SEC	false	YAKU_WEBHOOK_RELOAD_SEC	
+yaku_webhook_reload_sec	false	YAKU_WEBHOOK_RELOAD_SEC	
+YAKU_WEBHOOQ_RELOAD_SEC	false	YAKU_WEBHOOK_RELOAD_SEC	
+YAKU_WORKER_CHARGE	false	YAKU_WORKER_CHARGES	
+YAKU_ORKER_CHARGES	false	YAKU_WORKER_CHARGES	
+yaku_worker_charges	false	YAKU_WORKER_CHARGES	
+YAKU_WORKQR_CHARGES	false	YAKU_WORKER_CHARGES	
+# groups: describe's lines in their groups
+[Stores]
+YAKU_CONFIG_BACKEND	Settings database type: mysql or mssql (unset = from its DSN)
+YAKU_CONFIG_DSN	Connection string for the settings database
+YAKU_CONFIG_READ_DSN	Read DSN of the settings database; unset = read where it is written
+YAKU_QUEUE_BACKEND	Where queues run: mysql (default), mssql, or redis (Redis only)
+YAKU_QUEUE_DSN	The queue database (with YAKU_QUEUE_BACKEND=mysql or mssql)
+YAKU_QUEUE_READ_DSN	Read DSN of the queue database; unset = read where it is written
+YAKU_HLR_BACKEND	HLR database type: mysql or mssql (unset = from its DSN)
+YAKU_QUEUE_REDIS_ADDR	The queues' own Redis, host:port; unset = the main Redis
+YAKU_QUEUE_REDIS_PASSWORD	Password of the queues' own Redis
+YAKU_QUEUE_REDIS_DB	Database number on the queues' own Redis (default 0)
+YAKU_QUEUE_REDIS_FAILOVER_ADDR	Standby for the queues' own Redis, host:port
+YAKU_QUEUE_REDIS_SENTINEL_ADDRS	Sentinels of the queues' own Redis, host:port list
+YAKU_QUEUE_REDIS_MASTER_NAME	Name those Sentinels monitor the queues' Redis by
+YAKU_QUEUE_REDIS_SENTINEL_PASSWORD	Password of the queue Redis's Sentinels, if any
+YAKU_HLR_DSN	HLR data, vendor sessions; unset = the queue database
+YAKU_HLR_READ_DSN	Read DSN of the HLR database; unset = read where it is written
+YAKU_HOT_BACKEND	Record database type: mysql or mssql (unset = from its DSN)
+YAKU_HOT_DSN	Connection string for the recent-records database
+YAKU_HOT_READ_DSN	Read DSN of the record database; unset = read where it is written
+YAKU_COLD_BACKEND	Where old records are archived (mysql)
+YAKU_COLD_DSN	Connection string for the archive database
+YAKU_COLD_READ_DSN	Read DSN of the archive database; unset = read where it is written
+YAKU_AUTO_MIGRATE	Create and upgrade the databases at start (default on)
+YAKU_AUTO_SEED	Add demo rows on first start (default off; dev boxes only)
+YAKU_MIGRATE_SKIP_TRIGGERS	MySQL: skip triggers this login may not create (no audit hash chain)
+YAKU_REDIS_ADDR	Redis host:port; set = queues and counters run in Redis
+YAKU_REDIS_FAILOVER_ADDR	Standby Redis host:port, used when the main one fails
+YAKU_REDIS_SENTINEL_ADDRS	Sentinels as host:port,host:port; set = Sentinel finds the main Redis
+YAKU_REDIS_MASTER_NAME	Name the Sentinels know the main Redis by (often mymaster)
+YAKU_REDIS_SENTINEL_PASSWORD	Password for the Sentinels themselves, when they have one
+YAKU_REDIS_PASSWORD	Password for Redis
+YAKU_REDIS_DB	Redis database number (default 0)
+YAKU_REDIS_POOL_SIZE	Connections one Redis client keeps (default 10 a CPU)
+YAKU_REDIS_POOL_TIMEOUT_MS	Wait for a free Redis connection before failing, ms (4000)
+YAKU_REDIS_BALANCE_TIMEOUT_MS	Wait for Redis in a balance deduction (connection + answer), ms (30000)
+YAKU_REDIS_SYNC_SEC	Seconds between copying settings from MySQL to Redis (default 30)
+YAKU_REDIS_WATCH_SEC	Seconds between checks for new settings in Redis (default 3)
+[Whole gateway and roles]
+YAKU_ROLES	Roles the whole gateway runs, comma list; empty = all
+YAKU_CONTROL_ADDR	Local port the console uses to start/stop roles (127.0.0.1:8099)
+YAKU_DEPLOYMENT_ID	This gateway's name (e.g. lhr-1); set = it keeps its own queues
+YAKU_DB_MAX_OPEN	Most MySQL connections one role keeps per database (16 or 8)
+YAKU_DB_MAX_IDLE	Unused MySQL connections a role keeps ready per database (8 or 4)
+YAKU_DB_IDLE_SEC	Seconds before an unused MySQL connection is closed (300)
+YAKU_DB_INTERPOLATE	Values put into a statement by the driver: 1 round trip, not 3 (on)
+YAKU_RECORDS_VIA	worker (default with Redis): the DB worker writes the records; direct
+YAKU_WORKER_CHARGES	Retired 26 Oct 2026: nothing reads it
+YAKU_DB_QUEUE_LANES	Lists the billing events are spread over, 1 to 64 (4)
+YAKU_QUEUE_MT_EVERY_MS	Ms between checks of the vendor queues, busy or idle (1000)
+YAKU_QUEUE_MT_PER_INTERVAL	Most items one check of the vendor queues takes (2000)
+YAKU_QUEUE_DLR_EVERY_MS	Ms between checks of the receipts for clients, busy or idle (1000)
+YAKU_QUEUE_DLR_PER_INTERVAL	Most items one check of the receipts for clients takes (5000)
+YAKU_QUEUE_MO_EVERY_MS	Ms between checks of the MO for clients, busy or idle (1000)
+YAKU_QUEUE_MO_PER_INTERVAL	Most items one check of the MO for clients takes (5000)
+YAKU_QUEUE_RECORDS_EVERY_MS	Ms between checks of the record queue lanes, busy or idle (1000)
+YAKU_QUEUE_RECORDS_PER_INTERVAL	Most items one check of the record queue lanes takes (5000)
+YAKU_QUEUE_BILLING_EVERY_MS	Ms between checks of the billing queue lanes, busy or idle (1000)
+YAKU_QUEUE_BILLING_PER_INTERVAL	Most items one check of the billing queue lanes takes (5000)
+YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS	Ms between checks of the receipt rows (rcptw), busy or idle (1000)
+YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL	Most items one check of the receipt rows (rcptw) takes (5000)
+YAKU_QUEUE_HANDOFF_EVERY_MS	Ms between checks of the hand-off lists, busy or idle (1000)
+YAKU_QUEUE_HANDOFF_PER_INTERVAL	Most items one check of the hand-off lists takes (5000)
+YAKU_QUEUE_REROUTE_EVERY_MS	Ms between checks of the re-route inbox, busy or idle (2000)
+YAKU_QUEUE_REROUTE_PER_INTERVAL	Most items one check of the re-route inbox takes (200)
+YAKU_QUEUE_RETRY_EVERY_MS	Retired 27 Oct 2026 with the retry role: nothing reads it
+YAKU_QUEUE_RETRY_PER_INTERVAL	Retired 27 Oct 2026 with the retry role: nothing reads it
+YAKU_QUEUE_EXPIRY_EVERY_MS	Retired 27 Oct 2026 with the expiry role: nothing reads it
+YAKU_QUEUE_EXPIRY_PER_INTERVAL	Retired 27 Oct 2026 with the expiry role: nothing reads it
+YAKU_RECORD_LANES	Lists the record queue is spread over; a message keeps to one (4)
+YAKU_RECORD_QUEUE_MAX	Most records that may wait for the DB worker (2000000)
+YAKU_ENV	Label shown on monitoring, e.g. production or staging
+YAKU_VERSION	Build label shown on monitoring
+YAKU_SUPERVISED	Set by the gateway on the roles it starts; not a file setting
+YAKU_CONSOLE_MENUS	Console menus: cursor (arrow keys) or numbers
+YAKU_CACHE_REFRESH_SEC	Seconds between checks for changed settings (default 30)
+YAKU_WEBHOOK_RELOAD_SEC	Seconds between checks for changed customer webhooks (3)
+YAKU_BALANCE_REPLY_CACHE_MS	Ms a reply's balance read from MySQL is reused (2000; 0 = never)
+[Listeners]
+YAKU_API_ADDR	Submit API port for clients (default :8080)
+YAKU_SMPP_ADDR	SMPP port for clients (default :2775); off = no plain port, TLS only
+YAKU_DLR_ADDR	Port where vendors post delivery receipts (default :8090)
+YAKU_MO_ADDR	Port where vendors post incoming messages (default :8091)
+YAKU_ADMIN_ADDR	Health/admin port of a role: /healthz, /readyz, /status; unset = none
+YAKU_HEALTH_ADDR	Health-only port (/healthz, /readyz) of a role; unset = none
+YAKU_HTTP_IDLE_PER_HOST	Idle connections kept per host for vendor calls and webhooks (512)
+YAKU_CORS_ORIGINS	Web sites allowed to call the API from a browser, comma list
+YAKU_TRUSTED_PROXIES	Your own proxies (IPs/CIDRs) whose X-Forwarded-For is trusted
+[TLS]
+YAKU_API_TLS	off = no HTTPS port even when the certificate is set
+YAKU_API_TLS_ADDR	HTTPS port for the submit API; needs the certificate and key too
+YAKU_API_TLS_CERT	Certificate file for the HTTPS port
+YAKU_API_TLS_KEY	Private key file for the HTTPS port
+YAKU_API_TLS_CLIENT_CA	CA bundle; set = HTTPS clients must show a certificate
+YAKU_SMPP_TLS	off = no SMPP-over-TLS port even when the certificate is set
+YAKU_SMPP_TLS_ADDR	SMPP-over-TLS port for clients; unset = none
+YAKU_SMPP_TLS_CERT	Certificate file for the SMPP-over-TLS port
+YAKU_SMPP_TLS_KEY	Private key file for the SMPP-over-TLS port
+YAKU_SMPP_TLS_CLIENT_CA	CA bundle; set = SMPP-TLS clients must show a certificate
+[Keys and secrets]
+YAKU_ADMIN_KEY	Key for /admin/* calls and the control port; unset = /admin off
+YAKU_ADMIN_USER	User name for /admin/* calls (with YAKU_ADMIN_PASSWORD)
+YAKU_ADMIN_PASSWORD	Password for /admin/* calls (with YAKU_ADMIN_USER)
+YAKU_STATUS_KEY	Key for the read-only /status page; unset = /status off
+YAKU_TOKEN_PEPPER	Secret mixed into stored token digests; keep it secret
+YAKU_CRYPTO_AT_REST	on = encrypt message text in new records
+YAKU_CRYPTO_FIELDS	Which fields are encrypted, comma list (default body)
+YAKU_CRYPTO_KEK_REF	Where the gateway's master key is kept (file:// or env://)
+YAKU_KMS_GCP_ENABLED	on = companies may use their own Google Cloud KMS key
+YAKU_KMS_GCP_CREDENTIALS_REF	Where the Google service-account JSON is kept
+[Accepting messages]
+YAKU_MAX_RECIPIENTS	Most recipients in one submit request (default 500)
+YAKU_MAX_BATCH	Most items in a personalised messages[] list (default 500)
+YAKU_MAX_SEGMENTS	Most parts in one long message; longer is refused (default 10)
+YAKU_SENDER_MAX_ALPHA	Longest letter sender ID (default 11)
+YAKU_SENDER_MAX_NUMERIC	Longest number sender ID (default 15)
+YAKU_GLOBAL_TPS	Gateway-wide limit, message parts per second; 0 = none
+YAKU_DEDUPE_TTL_SEC	Seconds a message is remembered to catch duplicates (1800)
+YAKU_DEFAULT_TTL_SEC	How long a message may wait to be sent, seconds (48 h)
+YAKU_SPRAY_DISTINCT_THRESHOLD	Different logins one IP may try before it is blocked (3)
+YAKU_LOG_REJECTS	off = do not record refused submits
+YAKU_REROUTE	off = do not move messages off a vendor that is down
+YAKU_MASK_MIN_DIGITS	Shortest digit run hidden when text is masked (default 4)
+[HLR]
+YAKU_HLR_DIP_URL	Live number-lookup URL with {msisdn}; unset = data only
+YAKU_HLR_DIP_TIMEOUT_MS	Longest wait for one live lookup, ms (default 300)
+YAKU_HLR_CALL_LOG	Live lookups keeping the provider's raw call: all, failed, off (all)
+YAKU_HLR_MAX_INFLIGHT	Most live lookups at once (default 64)
+YAKU_HLR_DIP_MCC_FIELD	Field in the lookup answer holding the country code (mcc)
+YAKU_HLR_DIP_MNC_FIELD	Field in the lookup answer holding the network code (mnc)
+YAKU_HLR_DIP_OK_FIELD	Field that must be true for a lookup to count; optional
+YAKU_HLR_DIP_PORTED_FIELD	Field saying the number moved network; optional
+[SMPP]
+YAKU_SMPP_MAX_CONNS	Most client SMPP connections at once; 0 = no limit (2000)
+YAKU_SMPP_DELIVER_WINDOW	Receipts and MO one client bind may have unanswered (64)
+YAKU_SMPP_WINDOW	Messages one client bind may have in flight (default 16)
+YAKU_SMPP_WINDOW_GRACE_MS	Wait for a free window slot before refusing, ms (200)
+YAKU_SMPP_SERVER_MAX_IN_FLIGHT	Submits smpp-server works on at once; off = no limit (25 a connection)
+YAKU_SMPP_SERVER_OVER_LIMIT	Over that limit: hold (wait their turn) or throttle (0x58) (hold)
+YAKU_SMPP_DELIVER_BATCH	Receipts/incoming taken per pass for SMPP clients (200)
+YAKU_SMPP_DELIVER_MS	Retired: read for receipts and MO while YAKU_QUEUE_DLR/MO_* are unset
+YAKU_SMPP_DRAIN_SEC	Seconds a vendor bind waits for answers when stopping (5)
+YAKU_SMPP_THROTTLE_PAUSE_SEC	Pause after a vendor says throttled, when its own is unset (1)
+YAKU_SMPP_VENDOR_INBOUND_WORKERS	Workers per vendor bind for receipts and incoming (4)
+YAKU_RECEIPTS_IN_REDIS	Receipts use Redis, MySQL written after in batches (on; 0 = off)
+YAKU_VENDOR_RELOAD_SEC	Seconds between re-reading vendor settings (default 30)
+YAKU_VENDOR_CALL_LOG	HTTP vendor answers keeping their raw call: all, failed, off (all)
+YAKU_CONCAT_ASSEMBLY_TIMEOUT_SEC	Seconds to wait for all parts of a long message (60)
+YAKU_CONCAT_MO_STORE	Where incoming (MO) long-message parts wait: mysql, redis, memory
+YAKU_CONCAT_MT_STORE	Where a client's long-message parts wait: mysql, redis, memory
+YAKU_CONCAT_STALE_HOURS	Hours to keep part receipts that never all came (48)
+YAKU_BLACKHOLE_BATCH	Messages the test vendor takes per pass (default 500)
+[Receipts and incoming]
+YAKU_DLR_CORRELATE_GRACE_MS	Wait before a receipt is called unmatched, ms (250)
+YAKU_ORPHAN_REMATCH_SEC	Seconds between retries of unmatched receipts; 0 = off (5)
+YAKU_ORPHAN_REMATCH_MAX_SEC	Longest wait between tries of a receipt that matches nothing (300)
+YAKU_ORPHAN_REMATCH_MINUTES	How far back unmatched receipts are retried, minutes (60)
+YAKU_ORPHAN_REMATCH_LIMIT	Unmatched receipts retried per pass (default 200)
+YAKU_INBOUND_FAIL_THRESHOLD	Failed vendor logins before that vendor door locks (5)
+YAKU_INBOUND_IP_THRESHOLD	Failed vendor logins from one IP before it is slowed (20)
+YAKU_PUSH_MAX_ATTEMPTS	Tries to deliver a receipt/incoming to a client URL (30)
+YAKU_PUSH_BASE_DELAY_SEC	First wait before trying a client URL again, s (60)
+YAKU_PUSH_MULTIPLIER	Each wait is this many times the last (default 2)
+YAKU_PUSH_MAX_DELAY_SEC	Longest wait between tries, seconds (default 3600)
+YAKU_PUSH_GIVE_UP_AFTER_SEC	Give up on a client URL after this many seconds (86400)
+YAKU_WEBHOOK_CALL_LOG	Webhook tries keeping their request and answer: all, failed, off (all)
+[Retry and quality]
+YAKU_MAX_ATTEMPTS	Send tries per message before it fails (default 5)
+YAKU_QUALITY_WINDOW_MIN	Minutes of results used to judge a vendor (default 60)
+YAKU_QUALITY_MIN_SAMPLE	Results a vendor needs before it is judged (default 20)
+[Billing and abuse]
+YAKU_BILLING_INTERVAL_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_BILLING_BATCH	Records priced per billing pass (default 1000)
+YAKU_BILLING_DRAIN_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_BILLING_MAX_RATING_ATTEMPTS	Failed pricing tries before a record is set aside (5)
+YAKU_BILLING_HOT_DAYS	Days of record tables the billing role reads on every sweep (3)
+YAKU_BILLING_FULL_PASS_SEC	Retired 26 Oct 2026: nothing reads it
+YAKU_ABUSE_INTERVAL_SEC	Seconds between abuse-monitor checks (default 60)
+YAKU_ABUSE_SOURCE	Abuse monitor reads: counters (default with Redis), records or compare
+[Keeping and backing up data]
+YAKU_HOT_DAYS	Days of records kept before archiving, unless a company sets its own
+YAKU_HOT_MONTHS	Retired: read as days (x 30) while YAKU_HOT_DAYS is unset
+YAKU_RETENTION_INTERVAL_SEC	Seconds between archiving passes (default 3600)
+YAKU_RETENTION_SKIP_CHECKSUM	true = archive on row count alone when checksum fails
+YAKU_BACKUP_ROOT	Folder for backups (default ./backups)
+YAKU_BACKUP_INTERVAL_SEC	Seconds between backups (default 86400, once a day)
+YAKU_BACKUP_KEEP	Complete backups kept (default 7)
+[Logs, monitoring, captures]
+YAKU_LOG_DIR	Folder for log files (default /var/log/yakugate)
+YAKU_FX_TIMEOUT_MS	Longest one call to a currency rate provider may take, ms (3000)
+YAKU_LEDGER_PER_MESSAGE	1 = still write a ledger row per message (only during an upgrade)
+YAKU_RATE_HISTORY_HOURS	Hours back a message is priced by its accept-time rates (72; 0=off)
+YAKU_LOSS_NO_RATE	Loss check when no exchange rate is known: refuse (default) or accept
+YAKU_BASE_CURRENCY	System base currency prices are compared in (USD)
+YAKU_LOG_LEVEL	Log level: debug, info, warn, error or none (info)
+YAKU_LOG_MAX_SIZE_MB	Start a new log file past this size, MB; 0 = none (100)
+YAKU_LOG_RETENTION_DAYS	Delete log files older than this, days; 0 = keep (30)
+YAKU_LOG_REDACT	Hide phone numbers and codes in logs; off = show (on)
+YAKU_STATUS_PUSH_SEC	Seconds between monitoring snapshots (default 5)
+YAKU_MONITOR_HISTORY	off = do not save monitoring history
+YAKU_MONITOR_RETENTION_DAYS	Days every 5-second report is kept; 0 = all (3)
+YAKU_MONITOR_CPU_PCT	Event when host CPU goes over this % (90)
+YAKU_MONITOR_EVENTS	Monitoring events on or off (on)
+YAKU_MONITOR_HOLD	Intervals a condition must last to start or end an event (3)
+YAKU_MONITOR_LATENCY_MS	Event when acceptance p95 goes over this, in ms (50)
+YAKU_MONITOR_MEM_PCT	Event when host memory goes over this % (90)
+YAKU_MONITOR_QUEUE_AGE_SEC	Event when a queue's oldest ready message waits longer (300)
+YAKU_MONITOR_QUEUE_DEPTH	Event when more messages wait in one queue than this (10000)
+YAKU_MONITOR_STORE_PING_MS	A MySQL or Redis round trip slower than this is a warning (100)
+YAKU_MONITOR_MYSQL_CONN_PCT	MySQL connections over this % of max_connections is a warning (80)
+YAKU_MONITOR_REDIS_MEM_PCT	Redis memory over this % of maxmemory is a warning (80)
+YAKU_MONITOR_REPLICA_LAG_SEC	A MySQL replica further behind than this, in seconds, is a warning (30)
+YAKU_MONITOR_REJECT_MIN_TPS	Refusal share judged only at this many messages/s (1)
+YAKU_MONITOR_REJECT_PCT	Event when refused share of incoming goes over this % (20)
+YAKU_MONITOR_SPIKE_FACTOR	Event when incoming is this many times its usual level (3)
+YAKU_MONITOR_SUMMARY_DAYS	Days monitoring day summaries and events are kept (10)
+YAKU_MONITOR_TRAFFIC_MIN_TPS	Traffic stop/spike judged above this messages/s (1)
+YAKU_CAPTURE_MAX_RECORDS	Records the portal keeps per flow capture (20000)
+YAKU_PCAP_DIR	Folder for packet captures (default <log dir>/pcap)
+YAKU_PCAP_INTERFACE	Network interface tcpdump listens on (default any)
+YAKU_PCAP_MAX_MB	Stop a packet capture at this size, MB; 0 = none (256)
+YAKU_PCAP_TCPDUMP	tcpdump program name or full path (default tcpdump)

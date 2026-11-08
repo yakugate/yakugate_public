@@ -1,0 +1,23 @@
+-- ============================================================================
+-- 0057_reject_body.sql — the text of a refused message (Saleem 2026-10-06:
+-- "can't see text message in rejected messages")
+--
+-- rejects_YYYYMM kept who, where to and why — never WHAT. The first question
+-- about a refusal ("which word did the spam rule catch?", "what did the
+-- template gate see?") could not be answered from the screen.
+--
+-- `body` is the text as the pipeline judged it (after auto-replace), kept the
+-- way the company's privacy setting keeps its accepted messages:
+--   plain_text      the text
+--   pii_masked      the text with its digit runs hidden
+--   all_encrypted   not kept (NULL) — a refused message is never sealed, so
+--                   keeping it would store plain what the company asked to
+--                   have encrypted
+-- and NULL for a refusal before the account was known (a failed login has no
+-- company whose setting could be asked).
+--
+-- Existing months gain the column at start (the bootstrap's clone sync adds
+-- any nullable template column a partition lacks).
+-- ============================================================================
+ALTER TABLE rejects_template
+  ADD COLUMN body TEXT NULL COMMENT 'the refused text, as the company''s privacy setting keeps it; NULL = not kept';

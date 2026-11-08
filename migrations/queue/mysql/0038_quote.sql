@@ -1,0 +1,21 @@
+-- ============================================================================
+-- 0038_quote.sql — what a message costs, fixed when it is accepted
+-- (Saleem 2026-10-13: "we don't need to record per message"; "older messages
+-- are not charged, the charge applies once the rate card is there, previously
+-- sent messages are not touched at all")
+--
+-- Until now the price of a message was worked out by the billing role when it
+-- RATED the record, seconds or days later, with the cards of that moment; and
+-- a prepaid message charged at acceptance was known to billing only by a row
+-- in balance_history under its id. The accept pipeline now puts the price it
+-- took (or would take) on the message itself, and the vendor role copies it
+-- onto the record (hot/0059), where billing reads it.
+--
+--   quote   JSON (internal/billing.Quote): the selling price of the message,
+--           of one receipt and of one lookup, in the company's currency and
+--           in the card's, and whether the amount was taken from a prepaid
+--           balance at acceptance. NULL = not known (a row from before this
+--           column): billing then prices it by the rates of its accept time,
+--           as before.
+-- ============================================================================
+ALTER TABLE queue_template ADD COLUMN quote TEXT NULL;

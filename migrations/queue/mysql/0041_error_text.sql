@@ -1,0 +1,17 @@
+-- ============================================================================
+-- 0041_error_text.sql — a queued message carries what its last vendor
+-- answered (Saleem 2026-10-15: "reason is not clear, i.e with error code or
+-- status code from api or smpp error codes, or if body failed then body
+-- details, if session error then session details … from vendor_rejected i
+-- cant judge any thing").
+--
+-- A message a vendor could not take NOW goes through the re-route inbox to
+-- the next vendor of its round; when its rounds run out it is failed there.
+-- The code rode code_reroute; the vendor's own answer (the HTTP status and
+-- body, the login failure, the SMPP status) rode nothing on a MySQL queue, so
+-- the record said "test-http answered VENDOR_REJECTED". A Redis queue carries
+-- the whole message and needs nothing. Existing queue_<cid> tables get the
+-- column at start (bootstrap syncCloneColumns).
+-- One column per ALTER (the bootstrap rule).
+-- ============================================================================
+ALTER TABLE queue_template ADD COLUMN error_text VARCHAR(512) NULL;

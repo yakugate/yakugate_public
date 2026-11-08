@@ -1,0 +1,24 @@
+-- ============================================================================
+-- rate_cards.type gains HLR (2026-09-18).
+--
+-- A gap found while putting rate cards on the console. config/0034 created the
+-- column as ENUM('MT','MO','DLR') — the three kinds of traffic that existed
+-- then. config/0052 later gave every account a default_hlr_rate_card_id, and
+-- the billing role has charged number lookups from it since 2026-09-14
+-- (internal/process/billing, ledger reference hlr:<msg_id>). So the engine has
+-- priced HLR lookups for four days against a column that cannot say "HLR".
+--
+-- Nobody noticed because the live database already accepts it: the Admin API's
+-- TypeORM entity declares enum ["MT","MO","DLR","HLR"] and reshaped the column
+-- on start. That is exactly the class of drift config/0087a and config/0117
+-- were written to end — the engine owns the config store, and a database built
+-- by the engine alone must be able to hold everything the engine writes.
+--
+-- Without this, creating an HLR card on an engine-only install fails with
+-- "Data truncated for column 'type'", and an operator with no portal has no
+-- way to label the card their lookups are charged from.
+--
+-- A no-op wherever the Admin API got there first.
+-- ============================================================================
+
+ALTER TABLE rate_cards MODIFY COLUMN type ENUM('MT','MO','DLR','HLR') DEFAULT NULL;

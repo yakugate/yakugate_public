@@ -1,0 +1,24 @@
+# Yakugate — QUEUE/HLR store seed for REDIS backend.
+# Run with:  redis-cli < migrations/queue/redis/seed_demo.redis
+# Mirrors scripts/seed_demo.sql (SQL backends). account_id is the id the
+# CONFIG store assigned; shown here as the seed order (1..N).
+
+# ---- auth tokens:  tok:<sha256(api_key)> -> {account_id, username, revoked} ----
+HSET tok:87d452521c9a7f5c9052ae6190e900a46e2a2df5f144158c2fc20b797adb470b account_id 1 username demo revoked 0   # key: testkey123
+HSET tok:e0f979811c67357dcd8cdeba6350d6eb084c15f817b0f340263e575a064024bd account_id 2 username spamacct revoked 0   # key: spamkey
+HSET tok:0dd9d231a1f007dd218dac859b9ed7d8456cce8e82be9397121d90ec77aad425 account_id 3 username sidacct revoked 0   # key: sidkey
+HSET tok:86e0ce5690699442a4a4270adb75fa52d8fbf354710d1a8443c36b5ae9a97486 account_id 4 username prepaidacct revoked 0   # key: prepaidkey
+HSET tok:bbb98650bf7d8f7ff4556dd6bc8214cbbcd6838455dbf343e65b52651b28d1b8 account_id 5 username quotaacct revoked 0   # key: quotakey
+HSET tok:d241bb705b3eb13e5bcdf159c964c63763957fdb572d9a39ee6cd1b11514206c account_id 6 username tplacct revoked 0   # key: tplkey
+HSET tok:e41a6264e07f1df4d1d1f03fe2dfacb760379ea659296619fb524ee6b52d8ff1 account_id 7 username disabledacct revoked 0   # key: disabledkey
+HSET tok:4500ef772953219cb9e58a45efaf4725ff8dced3d50cc744cc87c25f039296ef account_id 8 username ipacct revoked 0   # key: ipkey
+HSET tok:592e427cb36c6352fe06ac46cfb48cc6e8a212c9b867e4f70cff3ab3fdc179dd account_id 9 username quietacct revoked 0   # key: quietkey
+HSET tok:3214e258cbcab0a35e177035aa623a778cbca36d1069bf90043fc634e923f4a8 account_id 10 username countryacct revoked 0   # key: countrykey
+HSET tok:f8afaa18a7b4dd749389304156977dd612b4208a861ce753f2a5f22975a450ab account_id 11 username aracct revoked 0   # key: arkey
+HSET tok:977f1d2adcedcfec0abb6de4d8f6416230500632b246eee38b6a9338938a2bd2 account_id 12 username rlacct revoked 0   # key: rlkey
+
+# ---- HLR:  hlr:<msisdn> -> {operator, ported, block_on, block_on_sc} ----
+HSET hlr:9230:923001234567 operator 1 ported 0 block_on * block_on_sc *
+
+# ---- queue: NOT seeded. Per-vendor queues are populated at runtime by
+#      Process 1 on accept:  q:<cid>:ready (zset) + q:<cid>:msg:<msg_id> (hash)

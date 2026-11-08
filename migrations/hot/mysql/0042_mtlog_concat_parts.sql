@@ -1,0 +1,29 @@
+-- ============================================================================
+-- 0042_mtlog_concat_parts.sql — the folded per-part outcome has a home again
+--
+-- D-040: `concat_parts` is a WORKING table. It exists so a receipt for any one
+-- PDU of a long message can find its message; once the group reaches a verdict
+-- the per-PDU outcome is FOLDED onto the record as JSON and the working rows
+-- are dropped, so the table stays small and the forensics travel with the
+-- record into the cold archive.
+--
+-- hot/0009 put the landing column on `records_template`. When the immutable
+-- `mtlog_<user>_<day>` family replaced `records_*`, the column did not come
+-- across. Found 2026-09-18 by running the multi-part suite on isolated stores:
+--
+--   * every fold since then failed with "Unknown column 'concat_parts'", and
+--     the caller ignored the error by design (a fold must never fail a receipt);
+--   * the retention pruner then treated ANY fold error as "the record is gone"
+--     and DELETED the working rows — so the per-part forensics D-040 promised
+--     to keep were being thrown away, silently.
+--
+-- The dev store showed it: 111 working rows piled up, 27 already settled and
+-- never folded.
+--
+-- This adds the column to the template, so every table cloned from now on has
+-- it. Daily tables that already exist get it on first need from the store
+-- itself (FoldConcatParts adds the column and retries), because a migration
+-- cannot know their names. The pruner now drops working rows only when the
+-- record really is gone.
+-- ============================================================================
+ALTER TABLE mtlog_template ADD COLUMN concat_parts JSON NULL;

@@ -1,0 +1,81 @@
+# ============================================================================
+# PUBLISH ALLOWLIST — only the Go engine goes to GitHub.
+#
+# Everything is ignored by default (/*); the !-entries below are the ONLY
+# things git tracks. Documentation (products_docs/), test harnesses, reports,
+# task automations, and working aids stay on disk. To publish something new,
+# add an explicit !-line here — nothing leaks by accident.
+# ============================================================================
+/*
+
+# --- the Go module (source of the `gateway` binary) ------------------------
+!/cmd/
+!/internal/
+!/migrations/
+!/scripts/
+!/go.mod
+!/go.sum
+
+# lib/: the SMPP and encoding modules — go.mod's replace lines need them to
+# build (PO, 8 Nov 2026).
+!/lib/
+
+# The two benchmark tools, so anyone can reproduce BENCHMARKS.md against an
+# install made by `yakugate migrate --seed` (account `loadtest`). Only these
+# two folders of sqa/ — the rest (harnesses, fixtures, results) stays local
+# (PO, 8 Nov 2026).
+!/sqa/
+/sqa/*
+!/sqa/load/
+/sqa/load/*
+!/sqa/load/smppbench/
+!/sqa/load/httpbench/
+
+# migrations/ + scripts/ look like data but are REQUIRED to build:
+# the binary embeds them via go:embed (migrations/embed.go, scripts/embed.go).
+
+# --- minimum public repo surface --------------------------------------------
+!/README.md
+!/BENCHMARKS.md
+!/INSTALL.md
+!/LICENSE
+!/Makefile
+!/yakugate.config.example
+!/.gitignore
+
+# --- hard excludes: never publish, even inside whitelisted folders ----------
+# secrets
+.env
+.env.*
+yakugate.config
+yakugate.config.bak
+sms.config
+sms.config.bak
+*.pem
+*.key
+# tests: no automated tests, cases, results, or harnesses in the public repo
+*_test.go
+testcases*
+*.postman_collection.json
+test-report*
+report.md
+# documentation: only the root README is public
+migrations/**/*.md
+# Claude's notes: a CLAUDE.md sits in internal/ (and other folders) since
+# 2026-10-08 — never public, at any depth
+CLAUDE.md
+# artifacts & working files
+*.log
+*.docx
+*.xlsx
+*.zip
+__pycache__/
+private/
+references/
+CONTINUE.md
+
+# --- explicit (already covered by /*, listed so intent is unmissable) -------
+# products_docs/  -> ALL product documentation, specs, test cases & results
+# admin/          -> Node.js Admin API (never published from this repo)
+# portal/         -> React portal (never published from this repo)
+# _to_delete/ .claude/ CLAUDE.md deploy/ configs/ -> local only

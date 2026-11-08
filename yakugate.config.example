@@ -1,0 +1,528 @@
+# Yakugate gateway settings.
+#
+# Copy this file to `yakugate.config` and fill in the lines that have no "#".
+# It holds database passwords: keep it readable by the gateway's user only
+# (chmod 600). The gateway looks for it in this order:
+#   yakugate --config FILE, ./yakugate.config, next to the binary,
+#   ~/.config/yakugate/, /etc/yakugate/
+#
+# How to read this file
+#   * "# YAKU_NAME=value" is switched off. The gateway uses the value shown,
+#     which is its default. Remove the "# " to change it.
+#   * A line with no "#" is one you must set yourself.
+#   * An environment variable that is already set wins over the same line here.
+#   * Roles read the file once, at start: restart a role after a change.
+#
+# Only the settings an install decides are here. The gateway has about a
+# hundred more for fine tuning (pauses, batch sizes, timeouts, safety
+# switches); their defaults suit a normal install. To see them all, each with
+# a line on what it does:   yakugate config list --all
+# To change one:            yakugate config set YAKU_NAME=value
+
+
+# ============================================================================
+# 1. COMMON — every role reads these.
+#    Keep them the same on every role of one deployment.
+# ============================================================================
+
+# --- Which gateway is this ---
+# A deployment is every role that shares one YAKU_DEPLOYMENT_ID, on one host
+# or on several. The id is written on every record and is what monitoring
+# groups by. Do not change it later: messages queued under the old id wait
+# for it.
+
+# This gateway's name, 64 characters at most. Unset = the host name. Set = it keeps its own queues.
+# YAKU_DEPLOYMENT_ID=
+
+
+# --- The databases (MySQL, or SQL Server) ---
+# Four databases. The gateway creates and upgrades them itself at start.
+# A DSN is written: user:password@tcp(HOST:3306)/DBNAME?parseTime=true
+# A DSN may also be a reference, so the password is not in this file:
+# env://VAR_NAME or file://path/to/secret
+#
+# SQL Server 2022 instead of MySQL: write every DSN in this group as
+#   sqlserver://USER:PASSWORD@HOST:1433?database=yakugate_queue
+# (a # in the password is written %23). A store whose DSN is written so is
+# on SQL Server; the type lines below need not be set. All the databases of
+# one install are of ONE type: MySQL settings with records on SQL Server are
+# refused at start. Redis is not a database here and goes with either.
+# This build does not run on SQL Server yet: a role started on it is
+# refused and names what it cannot serve.
+
+# The queue database: outgoing messages, incoming messages, receipts waiting for clients.
+YAKU_QUEUE_DSN=root:yourpassword@tcp(127.0.0.1:3306)/yakugate_queue?parseTime=true
+
+# The settings database: companies, accounts, vendors, routes, rules.
+YAKU_CONFIG_DSN=root:yourpassword@tcp(127.0.0.1:3306)/yakugate_config?parseTime=true
+
+# The record database: recent messages, receipts, refusals, summaries.
+YAKU_HOT_DSN=root:yourpassword@tcp(127.0.0.1:3306)/yakugate_hot?parseTime=true
+
+# The archive database: the retention role moves old records here.
+YAKU_COLD_DSN=root:yourpassword@tcp(127.0.0.1:3306)/yakugate_cold?parseTime=true
+
+# A database of their own for HLR data and vendor sessions. Unset = they live in the queue database.
+# YAKU_HLR_DSN=
+
+# Where the queues run: mysql, mssql (SQL Server), or redis (Redis only, no copy in a database; needs the Redis lines below).
+# YAKU_QUEUE_BACKEND=mysql
+
+# The settings database's type: mysql or mssql. Unset = from its DSN.
+# YAKU_CONFIG_BACKEND=mysql
+
+# The record database's type: mysql or mssql. Unset = from its DSN.
+# YAKU_HOT_BACKEND=mysql
+
+# The HLR database's type, when YAKU_HLR_DSN is set: mysql or mssql. Unset = from its DSN.
+# YAKU_HLR_BACKEND=
+
+# Create and upgrade the databases at start.
+# YAKU_AUTO_MIGRATE=true
+
+# Add demo accounts and vendors on the first start. For a test box only.
+# YAKU_AUTO_SEED=false
+
+# MySQL only: build the databases without their triggers when MySQL will not let this login create one (binary logging on, no SUPER). audit_log then keeps no hash chain.
+# YAKU_MIGRATE_SKIP_TRIGGERS=false
+
+# Most connections one role opens per database. Unset = 16 for the roles on the message path, 8 for the rest.
+# YAKU_DB_MAX_OPEN=16
+
+
+# --- Read DSNs (optional) ---
+# For a MySQL cluster with one address for writes and one for reads (MySQL
+# Router), or a SQL Server Availability Group listener (ApplicationIntent=
+# ReadOnly is added to a sqlserver:// read DSN that does not say it). The DSNs above are where the gateway WRITES. Give a store a read
+# DSN and its reads that may be a moment old go there: the same database, at
+# the read address. A store with no read DSN is read where it is written. If
+# a read address stops answering, its reads go to the write address.
+# Example: YAKU_HOT_READ_DSN=gateway:pass@tcp(router:6447)/yakugate_hot?parseTime=true
+
+# Read DSN of the queue database: HLR lookups, when HLR data lives in the queue database.
+# YAKU_QUEUE_READ_DSN=
+
+# Read DSN of the settings database: accounts, vendors, routes, rules as the roles load them.
+# YAKU_CONFIG_READ_DSN=
+
+# Read DSN of the record database: message status lookups, the abuse monitor, backups.
+# YAKU_HOT_READ_DSN=
+
+# Read DSN of the archive database: backups.
+# YAKU_COLD_READ_DSN=
+
+# Read DSN of the HLR database, when YAKU_HLR_DSN is set: HLR lookups.
+# YAKU_HLR_READ_DSN=
+
+
+# --- Redis (optional) ---
+# With Redis set, balances, rate limits, duplicate checks, lockouts,
+# reference data, HLR and live monitoring run in Redis. The queues move there
+# only with YAKU_QUEUE_BACKEND=redis. Give either one address (with an
+# optional standby) or the Sentinels, never both. A Redis that holds queues
+# or records must run with `appendonly yes` and `maxmemory-policy noeviction`.
+
+# Redis address as host:port. Unset = no Redis.
+# YAKU_REDIS_ADDR=
+
+# Password of that Redis.
+# YAKU_REDIS_PASSWORD=
+
+# Database number on that Redis.
+# YAKU_REDIS_DB=0
+
+# A standby, host:port, used when the main Redis does not answer.
+# YAKU_REDIS_FAILOVER_ADDR=
+
+# Sentinels as host:port,host:port. They say which Redis is the main one. Leave YAKU_REDIS_ADDR unset.
+# YAKU_REDIS_SENTINEL_ADDRS=
+
+# The name the Sentinels know the main Redis by, often mymaster.
+# YAKU_REDIS_MASTER_NAME=
+
+# Password of the Sentinels themselves, when they have one.
+# YAKU_REDIS_SENTINEL_PASSWORD=
+
+# How long a balance deduction waits for Redis under load, in ms, before the message is refused.
+# YAKU_REDIS_BALANCE_TIMEOUT_MS=30000
+
+# The queues' own Redis, host:port. Unset = the queues use the Redis above.
+# YAKU_QUEUE_REDIS_ADDR=
+
+# Password of the queues' own Redis.
+# YAKU_QUEUE_REDIS_PASSWORD=
+
+# Database number on the queues' own Redis.
+# YAKU_QUEUE_REDIS_DB=0
+
+# A standby for the queues' own Redis, host:port.
+# YAKU_QUEUE_REDIS_FAILOVER_ADDR=
+
+# Sentinels of the queues' own Redis, host:port,host:port. Leave YAKU_QUEUE_REDIS_ADDR unset.
+# YAKU_QUEUE_REDIS_SENTINEL_ADDRS=
+
+# The name those Sentinels know the queues' Redis by.
+# YAKU_QUEUE_REDIS_MASTER_NAME=
+
+# Password of those Sentinels, when they have one.
+# YAKU_QUEUE_REDIS_SENTINEL_PASSWORD=
+
+
+# --- Who writes the records ---
+# worker: a role puts every record and summary of the hot store (mt_, sub_,
+# dlr_, mo_, rejects_, lookups, orphans ...) on a list in Redis and the
+# db-worker role writes it, in batches, so a slow MySQL delays the records
+# and not the sending; no other role writes them. It needs the db-worker
+# role running.
+# direct: every role writes its own records to MySQL.
+# Restart every role together after a change.
+
+# worker or direct.
+# YAKU_RECORDS_VIA=worker
+
+
+# --- The billing queue ---
+# Every amount (a balance taken, a vendor's charge, a receipt's fee) is an
+# event on a list in the main Redis, and the db-worker of each deployment
+# books them into the usage that invoices and vendor bills are made from.
+# Every deployment needs a db-worker running.
+
+# Lists the billing events are spread over, 1 to 64; one company keeps to one.
+# YAKU_DB_QUEUE_LANES=4
+
+
+# --- Where long-message parts wait ---
+# The parts of a long message wait until they are all in, then go on as one
+# message. mysql: the queue database. redis: the main Redis, shared by every
+# gateway, so the gateway that gets the last part joins it. memory: this
+# process's own memory, shared by its sessions; lost if it restarts.
+# Unset: redis when a Redis is set, else mysql.
+
+# A client's long message over SMPP (smpp-server): mysql, redis or memory.
+# YAKU_CONCAT_MT_STORE=
+
+# A vendor's long incoming message (smpp-vendor): mysql, redis or memory.
+# YAKU_CONCAT_MO_STORE=
+
+
+# --- Queue checks ---
+# Every queue is checked on a fixed interval, busy or idle, and one check takes
+# at most a set quantity; the next check comes after the interval. Shorter
+# intervals send and deliver sooner and ask Redis and MySQL more often.
+
+# Vendor queues, by each SMPP session and HTTP vendor: ms between checks.
+# YAKU_QUEUE_MT_EVERY_MS=1000
+
+# The most messages one check takes; the vendor's rate and window still apply.
+# YAKU_QUEUE_MT_PER_INTERVAL=2000
+
+# Receipts waiting for a client (binds and webhooks): ms between checks.
+# YAKU_QUEUE_DLR_EVERY_MS=1000
+
+# The most receipts one check takes.
+# YAKU_QUEUE_DLR_PER_INTERVAL=5000
+
+# Incoming messages waiting for a client: ms between checks.
+# YAKU_QUEUE_MO_EVERY_MS=1000
+
+# The most MO one check takes.
+# YAKU_QUEUE_MO_PER_INTERVAL=5000
+
+# The DB worker's record queue, each lane: ms between checks.
+# YAKU_QUEUE_RECORDS_EVERY_MS=1000
+
+# The most records one check of a lane takes.
+# YAKU_QUEUE_RECORDS_PER_INTERVAL=5000
+
+# The billing queue, each lane: ms between checks.
+# YAKU_QUEUE_BILLING_EVERY_MS=1000
+
+# The most money events one check of a lane books.
+# YAKU_QUEUE_BILLING_PER_INTERVAL=5000
+
+# Receipt rows waiting for MySQL (rcptw): ms between checks.
+# YAKU_QUEUE_RECEIPT_WRITES_EVERY_MS=1000
+
+# The most rows one check writes.
+# YAKU_QUEUE_RECEIPT_WRITES_PER_INTERVAL=5000
+
+# Receipts and MO another gateway took in for this one: ms between checks.
+# YAKU_QUEUE_HANDOFF_EVERY_MS=1000
+
+# The most items of each kind one check moves into this gateway's queue.
+# YAKU_QUEUE_HANDOFF_PER_INTERVAL=5000
+
+# The re-route inbox and down vendors' queues: ms between checks.
+# YAKU_QUEUE_REROUTE_EVERY_MS=2000
+
+# The most inbox messages one check takes.
+# YAKU_QUEUE_REROUTE_PER_INTERVAL=200
+
+
+# --- Message privacy ---
+
+# on = the text of new records is encrypted.
+# YAKU_CRYPTO_AT_REST=off
+
+# Where the gateway's master key is kept (file:// or env://). The default is a test key: change it for live use.
+# YAKU_CRYPTO_KEK_REF=file://configs/dev-kek
+
+
+# --- Log files ---
+# Every role writes daily files under YAKU_LOG_DIR/<role>/: one system file,
+# one per account, one per vendor. The folder must exist and be writable by
+# the gateway's user. An account or a vendor may have its own level and limits.
+
+# Folder for the log files.
+# YAKU_LOG_DIR=/var/log/yakugate
+
+# How much is written: debug, info, warn, error or none.
+# YAKU_LOG_LEVEL=info
+
+# Start a new file once today's file passes this size, in MB. 0 = no limit.
+# YAKU_LOG_MAX_SIZE_MB=100
+
+# Delete log files older than this many days. 0 = keep them.
+# YAKU_LOG_RETENTION_DAYS=30
+
+# on = phone numbers and one-time codes are hidden in the log files. off = shown.
+# YAKU_LOG_REDACT=on
+
+
+# --- Health and monitoring ---
+# Every role reports itself every few seconds; the portal's Monitoring pages
+# read those reports. A role also answers /healthz, /readyz and /status on
+# its own port when it is given one below.
+
+# A role's port for /healthz, /readyz and /status. Unset = none. Example: :9080
+# YAKU_ADMIN_ADDR=
+
+# Several roles on one host: a port for each, as YAKU_ADMIN_ADDR_<ROLE> (SMPP_SERVER, DLR, BILLING ...). Example: 127.0.0.1:9081
+# YAKU_ADMIN_ADDR_HTTP_SERVER=
+
+# Key for the read-only /status page. Unset = /status is off. The Admin API holds the same key (ENGINE_STATUS_KEY).
+# YAKU_STATUS_KEY=
+
+# Days every report is kept in full. 0 = for ever.
+# YAKU_MONITOR_RETENTION_DAYS=3
+
+# Days the day summaries and the events are kept. 0 = for ever.
+# YAKU_MONITOR_SUMMARY_DAYS=10
+
+# Event when a queue's oldest ready message has waited longer than this, in seconds.
+# YAKU_MONITOR_QUEUE_AGE_SEC=300
+
+# Event when more messages than this wait in one queue.
+# YAKU_MONITOR_QUEUE_DEPTH=10000
+
+# Event when the time to accept a submit (95th percentile) passes this, in ms.
+# YAKU_MONITOR_LATENCY_MS=50
+
+# Event when the refused share of submits passes this, in %.
+# YAKU_MONITOR_REJECT_PCT=20
+
+# Event when the host's CPU use passes this, in %.
+# YAKU_MONITOR_CPU_PCT=90
+
+# Event when the host's memory use passes this, in %.
+# YAKU_MONITOR_MEM_PCT=90
+
+
+# --- Currency ---
+
+# The one currency prices are compared in. The Admin API and the portal must name the same one.
+# YAKU_BASE_CURRENCY=USD
+
+
+# ============================================================================
+# 2. THE WHOLE GATEWAY
+#    `yakugate` with no role starts every role as its own process and starts
+#    again any role that stops. `yakugate console` is the menu.
+#    The 13 roles: http-server, smpp-server, http-vendor, smpp-vendor, dlr, mo,
+#    retry, expiry, retention, backup, abuse-monitor, db-worker, blackhole.
+#    (billing was retired on 26 Oct 2026: a list that names it is told so.)
+# ============================================================================
+
+# Roles the whole gateway runs, comma list. Unset = all 14.
+# YAKU_ROLES=
+
+# Local port that starts, stops and restarts roles. The console's Gateway menu uses it.
+# YAKU_CONTROL_ADDR=127.0.0.1:8099
+
+# Key for /admin/* and the control port. Empty = /admin is off. The Admin API holds the same key (ENGINE_ADMIN_KEY).
+YAKU_ADMIN_KEY=
+
+
+# ============================================================================
+# 3. SHARED BY SEVERAL ROLES
+# ============================================================================
+
+# --- Doors to the outside (http-server, smpp-server, dlr, mo) ---
+
+# Your own proxies, IPs or CIDRs, comma list: their X-Forwarded-For is believed. Unset = none is.
+# YAKU_TRUSTED_PROXIES=
+
+# Different logins one address may try inside a minute before it is blocked.
+# YAKU_SPRAY_DISTINCT_THRESHOLD=3
+
+# Secret mixed into stored token digests; the Admin API holds the same. A test value: change it for live use.
+# YAKU_TOKEN_PEPPER=yaku-dev-token-pepper
+
+
+# --- Accepting messages (http-server and smpp-server) ---
+# These apply to a message whichever way it came in.
+
+# One limit for all customers together, in message parts a second. 0 = none.
+# YAKU_GLOBAL_TPS=0
+
+# Seconds a message is remembered to catch a duplicate (the same text, sender, receiver and client reference from one account), when the account sets none.
+# YAKU_DEDUPE_TTL_SEC=1800
+
+# Most parts in one long message. A longer one is refused.
+# YAKU_MAX_SEGMENTS=10
+
+# Longest sender ID made of letters. The console applies the same limit.
+# YAKU_SENDER_MAX_ALPHA=11
+
+# Longest sender ID made of digits.
+# YAKU_SENDER_MAX_NUMERIC=15
+
+# Seconds a message may wait to be sent when the client gave no validity. The expiry role fails it after that.
+# YAKU_DEFAULT_TTL_SEC=172800
+
+# Loss check when no exchange rate is known: refuse the message, or accept it and say so in the log.
+# YAKU_LOSS_NO_RATE=refuse
+
+
+# --- Sending to vendors (smpp-vendor, http-vendor, retry) ---
+
+# Send tries per message before it fails.
+# YAKU_MAX_ATTEMPTS=5
+
+
+# ============================================================================
+# 4. ONE PROCESS EACH
+#    retry, expiry and blackhole have nothing an install needs to set.
+# ============================================================================
+
+# --- http-server: the submit API for clients ---
+
+# Port of the submit API.
+# YAKU_API_ADDR=:8080
+
+# HTTPS port. Opened only when this line, the certificate and the key are all set. Example: :8443
+# YAKU_API_TLS_ADDR=
+
+# Certificate file for the HTTPS port.
+# YAKU_API_TLS_CERT=
+
+# Private key file for the HTTPS port.
+# YAKU_API_TLS_KEY=
+
+# File of the authorities whose client certificates are accepted. Set = HTTPS clients must show a certificate.
+# YAKU_API_TLS_CLIENT_CA=
+
+# Web sites allowed to call the API from a browser, comma list, or *. Unset = none.
+# YAKU_CORS_ORIGINS=
+
+# Most recipients in one submit request. An account may have a lower limit, never a higher one.
+# YAKU_MAX_RECIPIENTS=500
+
+# Most items in the messages[] list of one request.
+# YAKU_MAX_BATCH=500
+
+
+# --- smpp-server: SMPP for clients ---
+
+# SMPP port. off = no plain port: clients bind over TLS only (set the three TLS lines below; with none open the role does not start).
+# YAKU_SMPP_ADDR=:2775
+
+# SMPP over TLS port. Opened only when this line, the certificate and the key are all set. Example: :3550
+# YAKU_SMPP_TLS_ADDR=
+
+# Certificate file for the SMPP over TLS port.
+# YAKU_SMPP_TLS_CERT=
+
+# Private key file for the SMPP over TLS port.
+# YAKU_SMPP_TLS_KEY=
+
+# File of the authorities whose client certificates are accepted. Set = TLS clients must show a certificate.
+# YAKU_SMPP_TLS_CLIENT_CA=
+
+# Most client connections at once. 0 = no limit.
+# YAKU_SMPP_MAX_CONNS=2000
+
+# Messages one bind may have in flight at once. An account may set its own (smpp_config.window_size).
+# YAKU_SMPP_WINDOW=16
+
+# Receipts and incoming messages one bind may have unanswered. An account may set its own (smpp_config.deliver_window).
+# YAKU_SMPP_DELIVER_WINDOW=64
+
+
+# --- smpp-vendor: SMPP to vendors ---
+# A vendor's own settings (binds, window, throttle) are on the vendor, in the
+# portal or the console. http-vendor has no setting here at all.
+
+# Workers per vendor bind for receipts and incoming messages.
+# YAKU_SMPP_VENDOR_INBOUND_WORKERS=4
+
+
+# --- dlr and mo: receipts and incoming messages ---
+# The dlr role takes vendors' delivery receipts and sends them on to clients.
+# The mo role does the same for incoming messages.
+
+# Port where vendors post delivery receipts (dlr).
+# YAKU_DLR_ADDR=:8090
+
+# Port where vendors post incoming messages (mo).
+# YAKU_MO_ADDR=:8091
+
+# Tries to deliver a receipt or an incoming message to a customer's URL. 0 = no limit by count.
+# YAKU_PUSH_MAX_ATTEMPTS=30
+
+# Give up on a customer's URL after this many seconds. 0 = no limit by time.
+# YAKU_PUSH_GIVE_UP_AFTER_SEC=86400
+
+# Every try to give a customer its MO or a receipt is a row with its message
+# (mo_sub_ / dlr_sub_ tables); a webhook try also keeps the call as it went,
+# request and answer, secrets masked. This says which tries keep the call:
+# all = every try, failed = only tries the customer did not accept, off = none.
+# YAKU_WEBHOOK_CALL_LOG=all
+
+# Every answer of an HTTP vendor is a row with its message (sub_ tables); it
+# also keeps the call as it went, request and answer, with keys, tokens and
+# passwords replaced by ***. This says which answers keep the call:
+# all = every answer, failed = only answers that did not take the message, off = none.
+# YAKU_VENDOR_CALL_LOG=all
+
+# A live number lookup's row in HLR Logs also keeps the call made to the HLR
+# provider, request and answer, with keys, tokens and passwords replaced by ***.
+# This says which lookups keep it: all = every one, failed = only those that
+# found nothing or failed, off = none.
+# YAKU_HLR_CALL_LOG=all
+
+
+# --- retention and backup ---
+# Message records are kept by company and day. The record database keeps
+# today and the days before it, up to this number; every night at about
+# 02:00 UTC the next older day is moved to the archive. A company may set its
+# own number.
+
+# Days of records kept in the record database, when the company has no number of its own.
+# YAKU_HOT_DAYS=90
+
+# Folder the backups are written to.
+# YAKU_BACKUP_ROOT=./backups
+
+# Complete backups kept. Older ones are removed.
+# YAKU_BACKUP_KEEP=7
+
+# Seconds between backups.
+# YAKU_BACKUP_INTERVAL_SEC=86400
+
+
+# --- abuse-monitor ---
+
+# What it judges from: counters (counts in Redis), records (the message tables), or compare (both, logged).
+# Unset: counters when Redis is set, records without Redis.
+# YAKU_ABUSE_SOURCE=
